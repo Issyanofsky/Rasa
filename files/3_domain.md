@@ -50,3 +50,23 @@ Adding aditional functionality to the assistant. we can add buttons and images.
 
 __* Note:__ buttons and images will be rendered depending on the channel you use (the rasa will send JSON with this information).
 
+__Channel specific responses:__
+If the assistant run throw multiple channels using multiple connecters. you can set the response base on the channel the user interacted.
+
+![Channel specific responses](../images/responses303.gif)
+
+__Custom output payloads:__
+As long as it in JSON format. you can upload custom paylioads.
+
+![Custom output payloads](../images/responses304.gif)
+
+## other responses
+
+__Condition:__
+
+![Condition](../images/responses305.gif)
+
+__Voice-Specific Response Properties:__
+For voice assistants, you can control specific behaviors of individual responses using voice-specific properties.
+
+![Voice-Specific Response Properties](../images/responses306.gif)
