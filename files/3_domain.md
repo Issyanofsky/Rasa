@@ -21,3 +21,5 @@ The domain file is a directory of everything your asistant "knows":
 # 2. Responses:
 
 what your asistant says.
+
+[Domain](images/rasa.gif)
