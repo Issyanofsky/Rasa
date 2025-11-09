@@ -22,7 +22,9 @@ The domain file is a directory of everything your asistant "knows":
 
 what your asistant says.
 
-![Responses](images/responses.gif)
+
+[Responses](images/responses.gif)
+
 
 file is a YAML file (as in the pic above). it list the responses. where each response (utter) have his value to reply.
 
@@ -34,3 +36,7 @@ __*note__ it is sugested to add a utter for identifying as a bot;
 
       utter_iamabot:
         - text: "I am a bot, powered by Rasa."
+
+
+[Variation Responses](images/responses301.gif)
+
