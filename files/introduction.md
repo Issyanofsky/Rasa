@@ -24,4 +24,4 @@ __1. What can you do with Rasa:__
 
 __2. An (externaly) brif history of NLP:__
 
-![NLP history](./images/nlphistory.gif)
+![NLP history](../images/nlphistory.gif)
