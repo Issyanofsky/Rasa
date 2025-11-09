@@ -70,6 +70,6 @@ __* NOTE:__ it is recommended to use both approaches in tandem
     - Correct any errors your assistant made in a conversation....then add it to the training data, retrain and redeploy.
     - A Rasa conversational AI system isn't static! It changes and adapt over time.
 
-  __WE call this process "conversation-driven development"
+  __We call this process "conversation-driven development"__
     
 
