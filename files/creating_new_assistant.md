@@ -11,4 +11,9 @@
 
 # Upgarding Rasa
 
-__installing Rasa__ - install via the rasa site ([Rasa Instalation](https://rasa.com/docs/pro/installation/overview/))
+__Installing Rasa__ - install via the rasa site ([Rasa Instalation](https://rasa.com/docs/pro/installation/overview/))
+
+__*note:__ if it's been a while, Update Rasa before you begin.
+
+    pip install --upgrade rasa
+
