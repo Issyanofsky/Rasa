@@ -36,5 +36,11 @@ __*note__ it is sugested to add a utter for identifying as a bot;
       utter_iamabot:
         - text: "I am a bot, powered by Rasa."
 
+__Adding variant Responses:__
+
 ![Variation Responses](../images/responses301.gif)
+
+__* Note:__ when this is triggered, one of the responses will be randomly selected.
+
+__Buttons and Images:__
 
