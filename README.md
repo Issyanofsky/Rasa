@@ -11,4 +11,5 @@
 
    * [1. Introduction](files/1_introduction.md)
    * [2. Creating New Assistant](files/2_creating_new_assistant.md)
+   * [3. Domain File](files/3_domain.md)
 
