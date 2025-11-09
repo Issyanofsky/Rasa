@@ -23,3 +23,5 @@ __1. What can you do with Rasa:__
 * highly customizable and support everithing fromm hobby projects to complex enterprise systems.
 
 __2. An (externaly) brif history of NLP:__
+
+![NLP history](images/nlphistory.gif)
