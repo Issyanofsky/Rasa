@@ -2,10 +2,10 @@
 
 # **Rasa**
 
-![DevOps](terragrunt/pic/devops1.gif)
+![Rasa](images/rasa.gif)
 </div>
 
 # Legend:
 
-   * [Dev-Ops](devops/README.md)
-   * [Bash](bash/README.md)
+   * [Introduction](files/introduction.md)
+
