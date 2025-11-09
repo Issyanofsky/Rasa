@@ -72,7 +72,7 @@ For voice assistants, you can control specific behaviors of individual responses
 ![Voice-Specific Response Properties](../images/responses306.gif)
 
 # 3. Intents
-Categories of things your user say.
+Categories of things your user say. the NLU map the intents to the training data (containing ways user may express the intent).
 
 ![Intents](../images/intents301.gif)
 
