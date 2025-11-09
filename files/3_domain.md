@@ -41,6 +41,12 @@ __Adding variant Responses:__
 ![Variation Responses](../images/responses301.gif)
 
 __* Note:__ when this is triggered, one of the responses will be randomly selected.
+__* Note:__ {name} will be filled with the value of the name (in a slot). will return "None" untill it's filled.
 
 __Buttons and Images:__
+Adding aditional functionality to the assistant. we can add buttons and images.
+
+![Buttons and Images](../images/responses302.gif)
+
+__* Note:__ buttons and images will be rendered depending on the channel you use (the rasa will send JSON with this information).
 
