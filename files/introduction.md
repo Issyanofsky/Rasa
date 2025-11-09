@@ -8,8 +8,8 @@
   * How to make sure conversations work (and improve over time)
 
 Rasa is build to designed to build a spesific type of cnversation systems:
-
-<p align="center">__task oriented dialogue systems__</p>
+__task oriented dialogue systems__
+<p align="center"> __task oriented dialogue systems__ </p>
 
 * Task oriented - the user want to accomplish something.
 
