@@ -22,7 +22,7 @@ The domain file is a directory of everything your asistant "knows":
 
 what your asistant says.
 
-[Responses](images/responses.gif)
+![Responses](images/responses.gif)
 
 file is a YAML file (as in the pic above). it list the responses. where each response (utter) have his value to reply.
 
