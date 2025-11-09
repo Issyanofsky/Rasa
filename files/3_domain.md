@@ -70,3 +70,11 @@ __Voice-Specific Response Properties:__
 For voice assistants, you can control specific behaviors of individual responses using voice-specific properties.
 
 ![Voice-Specific Response Properties](../images/responses306.gif)
+
+# 3. Intents
+Categories of things your user say.
+
+![Intents](../images/intents301.gif)
+
+__*Pro tip__ Start with the fewest intents possible. you can add or change intents at any time.
+
