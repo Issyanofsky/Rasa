@@ -52,4 +52,8 @@ shell - allow to talk to the assistant in a shell (terminal)
 
     rasa shell
 
-    
+  to get a debug
+
+    rasa shell --debug
+
+
