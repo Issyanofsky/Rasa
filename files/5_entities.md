@@ -83,6 +83,7 @@ The output of the entity extraction is a snippet of JSON which contains the deta
  ![entity](../images/entity509.gif)
 
  3. __Entity Roles and Groups__ - allow you to add more details to your entites.
+    
     a. __role__ - a label that tells the bot the specific purpose or function of an entity in a sentence.
 
 ![entity](../images/entity510.gif)
@@ -95,7 +96,7 @@ The output of the entity extraction is a snippet of JSON which contains the deta
 ```
 
     
-    b. __groups__ - allow you to put extracted entities under a specific group.
+   b. __groups__ - allow you to put extracted entities under a specific group.
 
 ![entity](../images/entity511.gif)
 
