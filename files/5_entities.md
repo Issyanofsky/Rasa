@@ -91,7 +91,8 @@ The output of the entity extraction is a snippet of JSON which contains the deta
    nlu:
    - intent: book_a_flight
      examples:
-     - i am looking for a flight from [Nw Yrk]{"entity": "location", "role":"origin"} to [Boston]{"entity":"location", "role":"destination"}```
+     - i am looking for a flight from [Nw Yrk]{"entity": "location", "role":"origin"} to [Boston]{"entity":"location", "role":"destination"}
+```
     
      b. __groups__ - allow you to put extracted entities under a specific group.
 
@@ -101,7 +102,8 @@ The output of the entity extraction is a snippet of JSON which contains the deta
    nlu:
    - intent: order_pizza
      examples:
-     - i would like large pepperoni with [cheese]{"entity":"toppings", "group":"1"} and [mushrooms]{"entity":"toopings", "group":"1"}.```
+     - i would like large pepperoni with [cheese]{"entity":"toppings", "group":"1"} and [mushrooms]{"entity":"toopings", "group":"1"}.
+```
 
    __*note:__ an importing thing about roles and groups is that you habe to include quite a few different examples for your assistant to reallyu learn. so make sure to include different examples of different variations of role and groups.
 
