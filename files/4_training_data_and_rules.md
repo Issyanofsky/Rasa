@@ -143,6 +143,7 @@ we can combine them together to one intent:
     example:
       - Instead of labeling it with a single intent, you write a story (or rule) where the user message itself is used as the input.
       - Rasa learns “if the user says this (text), do this action”.
+
   
     stories:
       - story: help or greet
