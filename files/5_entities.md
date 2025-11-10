@@ -93,8 +93,9 @@ The output of the entity extraction is a snippet of JSON which contains the deta
      examples:
      - i am looking for a flight from [Nw Yrk]{"entity": "location", "role":"origin"} to [Boston]{"entity":"location", "role":"destination"}
 ```
+
     
-     b. __groups__ - allow you to put extracted entities under a specific group.
+    b. __groups__ - allow you to put extracted entities under a specific group.
 
 ![entity](../images/entity511.gif)
 
