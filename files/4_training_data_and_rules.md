@@ -54,6 +54,7 @@ __how a Stories look like__
 In the pattern of the conversation (under steps)
 
   __intent__ - things that user say that the mechine model has detected.
+  
   __action__ - things that the assistant do.
 
 __OR statements__
