@@ -51,12 +51,101 @@ __how a Stories look like__
           - action: utter_greet
           - intent: mood_great
           - action: utter_happy
-In the pattern of the conversation (under steps)
+In the pattern of the conversation (under steps):
 
   __intent__ - things that user say that the mechine model has detected.
   
   __action__ - things that the assistant do.
 
 __OR statements__
+This step (__OR__) means it can match any of these intents (it's affirmed if the intent is "affirm" or "thanks").
 
 ![Or statements](../images/stories402.gif)
+
+__checkpoint__
+A checkpoint is a marker inside a story that allows you to link or continue from one part of a conversation to another (like a shortcut of the story. it help keep it more orginize and less code).
+
+![checkpoint](../images/stories403.gif)
+
+![checkpoint](../images/stories404.gif)
+
+# 3. Rules
+A way to describe short pieces of conversations that always go the same way.
+Rules are like __“if this happens, always do that”__ — a way to tell the bot exactly what to do in specific situations, so it’s predictable and doesn’t guess.
+
+![Rules](../images/stories405.gif)
+
+# recomendation for Stories and Rules
+
+![do/don't](../images/stories406.gif)
+
+# 4. Intens
+An intent is __what the user means or wants__ when they say something, like “greet,” “order coffee,” or “deny.”
+
+The __examples__ is the training data for that the assistant can recognize the intent. 
+
+![Intens](../images/stories407.gif)
+
+__if you have conversation data:__
+
+![Intens](../images/stories408.gif)
+
+__if you DON'T have conversation data:__
+
+![Intens](../images/stories409.gif)
+
+## Why to use FEWER intents?
+  * __Older style of conversational design:__ you need an intent for everything your user might want to do!
+  * __Rasa style (CDD):__
+    - You only need to start wih the most popular, important intents & a way to handle things outside them.
+    - Continue to build from there if that's what user need (add intents).
+  * __Human reasons:__
+    - More intents = more training data, maintenance and documentation.
+    - More intents = annotations more difficult.
+  * __ML reasons:__
+    - Transformer classifiers scale linearly with the number of classes.
+    - Entity extraction (esp. with very lightweight rule-based systems like Duckling) is often faster. finding specific details (like dates, numbers, or names) in what the user says using Duckling (a lightweight tool that quickly recognizes these kinds of entities).
+   
+## Parin intents
+
+  * __Don't use intents as a way to store information__ - store information in __slots__.
+  * If you have the same tokens (examples) showing up in training data for two intents - __Consider to combine them__
+
+Example: you have two intents:
+
+here we have two intents similar:
+
+    book_train:
+      - One train ticket
+      - need to book a train ride
+      - A rail journey please
+
+    book_plane:
+      - One plane ticket
+      - Need to book a plane ride
+
+we can combine them together to one intent:
+
+    make_booking:
+      - One [train](train) ticket
+      - Need to book a [train](train) ride
+      - A [rail](train) journey please
+      - One [plane](air) ticket
+      - Need to book a [plane](air) ride
+      - i'd like to book a trip
+      - Need a vacation
+
+## Training data for an intent
+
+  * __User-generated__ its much beter then __syntetic__ trining data.
+  * __Each utterance should unambiguously match to a single intent__ - varify it by using human sorting & inter-rater reliabulity (verified by humans agreeing on its label).
+  * If an utterance __is ambiguous__ (may relate to more then one intent) - Use end-to-end learning insted (the row text as training data without classifying it).
+    example:
+      - Instead of labeling it with a single intent, you write a story (or rule) where the user message itself is used as the input.
+      - Rasa learns “if the user says this (text), do this action”.
+   
+        stories:
+          - story: help or greet
+            steps:
+            - user: "Can you help me?"
+            - action: utter_ask_how_to_help
