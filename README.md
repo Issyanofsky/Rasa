@@ -14,3 +14,4 @@
    * [3. Domain File](files/3_domain.md)
    * [4. Training Data & Rules](files/4_training_data_and_rules.md)
    * [5. Entities](files/5_entities.md)
+   * [6. Entities](files/6_slots.md)
