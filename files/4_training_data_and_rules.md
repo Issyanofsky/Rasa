@@ -140,10 +140,11 @@ we can combine them together to one intent:
   * __User-generated__ its much beter then __syntetic__ trining data.
   * __Each utterance should unambiguously match to a single intent__ - varify it by using human sorting & inter-rater reliabulity (verified by humans agreeing on its label).
   * If an utterance __is ambiguous__ (may relate to more then one intent) - Use end-to-end learning insted (the row text as training data without classifying it).
-    example:
+    Example:
       - Instead of labeling it with a single intent, you write a story (or rule) where the user message itself is used as the input.
       - Rasa learns “if the user says this (text), do this action”.
 
+  yaml - example:
   
     stories:
       - story: help or greet
