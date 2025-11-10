@@ -96,6 +96,7 @@ The output of the entity extraction is a snippet of JSON which contains the deta
 
 ![entity](../images/entity511.gif)
 
+   '''yml
    nlu:
    - intent: order_pizza
      examples:
