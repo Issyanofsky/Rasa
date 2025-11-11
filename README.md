@@ -15,3 +15,4 @@
    * [4. Training Data & Rules](files/4_training_data_and_rules.md)
    * [5. Entities](files/5_entities.md)
    * [6. Slots](files/6_slots.md)
+   * [7. Responses](files/7_responses.md)
