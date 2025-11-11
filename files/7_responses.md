@@ -59,6 +59,7 @@ __*Examples of channels:__ slack, facebook, telegram, twilio (whatsapp), webchat
 To enable the assistant to actually use the defined responses, they need to be included in the training stories.
 
 For example:
+
 ![Responses](../images/response709.gif)
 
 
