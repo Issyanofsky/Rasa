@@ -135,7 +135,7 @@ Slots of this type don't have any influence on the conversation flow, which mean
 
 ![Slots](../images/slots622.gif)
 ![Slots](../images/slots623.gif)
-__*note__ this slot will never influence on how the conversation goes. which mean this tyoe of slot is the __best__ to simple store the values that you like the assistant to have the access to.
+__*note__ this slot will never influence on how the conversation goes. which mean this type of slot is the __best__ to simple store the values that you like the assistant to have the access to.
 
 ## initial_value
 you can set a default value to the slot by configuring the initial_value parameter. the value will be assigned to the slot from the beggining of the conversation and can be reset later on by NLU or custon actions.
