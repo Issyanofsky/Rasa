@@ -60,12 +60,12 @@ __*Note__ priority level are set by defualt - not recomended to cange them.
 ### 3 main policies:
   1. __RulePolicy__ - Handles hard-coded rules in your bot. explicitly tell Rasa to always do, regardless of probabilities (e.g. When user says hello, always respond with utter_greet)
 
-'''
+```
      rules:
       - rule: Greet the user
         steps:
       - intent: greet
       - action: utter_greet
-'''
+```
 
 
