@@ -58,6 +58,14 @@ __*Note__ priority level are set by defualt - not recomended to cange them.
 ![Pipline & Policy](../images/pipline803.gif)
 
 ### 3 main policies:
+
+```
+    policies:
+  - name: RulePolicy
+  - name: MemoizationPolicy
+  - name: TEDPolicy
+```
+
   1. __RulePolicy__ - Handles hard-coded rules in your bot. explicitly tell Rasa to always do, regardless of probabilities (e.g. When user says hello, always respond with utter_greet)
 
 ```
@@ -80,3 +88,17 @@ __*Note__ priority level are set by defualt - not recomended to cange them.
   2. __MemoizationPolicy__ - Memorizes frequent conversation patterns from your training stories. Works __well for short and deterministic conversations__.
   3. __TEDPolicy__ - This is the machine learning policy that predicts actions based on conversation context. Predicts the most likely next action, even for new combinations not seen in stories.
 
+![Pipline & Policy](../images/pipline804.gif)
+
+```
+    policies:
+      - name: TEDPolicy                  # Use the Transformer Embedding Dialogue Policy for predicting next actions
+        max_history: 5                   # How many previous conversation turns (user + bot) are considered
+        epochs: 200                      # Number of training iterations over the dataset
+        constrain_similarities: true     # Helps prevent confusing similar actions/intents
+        batch_size: 32                   # Number of conversation samples processed before updating model weights
+        learning_rate: 0.001             # Speed at which the model updates weights during training
+        evaluate_on_num_examples: 100    # Number of examples used to evaluate model during training
+        early_stopping: true             # Stops training early if model stops improving on validation data
+        max_training_samples: 30000      # Maximum number of training samples to use (useful for large datasets)
+```
