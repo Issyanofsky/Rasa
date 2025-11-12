@@ -53,21 +53,27 @@ __how a Stories look like__
           - action: utter_happy
 In the pattern of the conversation (under steps):
 
-  __intent__ - things that user say that the mechine model has detected.
+  ###__intent__ - things that user say that the mechine model has detected.
   
-  __action__ - things that the assistant do.
+  ###__action__ - things that the assistant do.
 
-__OR statements__
+##__OR statements__
 This step (__OR__) means it can match any of these intents (it's affirmed if the intent is "affirm" or "thanks").
 
 ![Or statements](../images/stories402.gif)
 
-__checkpoint__
+##__checkpoint__
 A checkpoint is a marker inside a story that allows you to link or continue from one part of a conversation to another (like a shortcut of the story. it help keep it more orginize and less code).
 
 ![checkpoint](../images/stories403.gif)
 
 ![checkpoint](../images/stories404.gif)
+__*Note:__ in Rasa 3.x __checkpoints were removed__. insted
+
+    - story: greet and then ask weather
+      steps:
+      - story: greet user
+      - story: ask about weather
 
 # 3. Rules
 A way to describe short pieces of conversations that always go the same way.
