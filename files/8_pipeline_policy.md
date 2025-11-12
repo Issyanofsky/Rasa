@@ -61,6 +61,15 @@ __*Note__ priority level are set by defualt - not recomended to cange them.
   1. __RulePolicy__ - Handles hard-coded rules in your bot. explicitly tell Rasa to always do, regardless of probabilities (e.g. When user says hello, always respond with utter_greet)
 
 ```
+    policies:
+        name: "RulePolicy"
+        core_fallback_threshold: 0.3
+        core_fallback_prediction: true
+        restrict_rules: true
+        check_for_contradictions: true
+```
+
+```
      rules:
       - rule: Greet the user
         steps:
@@ -68,4 +77,6 @@ __*Note__ priority level are set by defualt - not recomended to cange them.
       - action: utter_greet
 ```
 
+  2. __MemoizationPolicy__ - Memorizes frequent conversation patterns from your training stories. Works __well for short and deterministic conversations__.
+  3. __TEDPolicy__ - This is the machine learning policy that predicts actions based on conversation context. Predicts the most likely next action, even for new combinations not seen in stories.
 
