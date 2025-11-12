@@ -90,7 +90,7 @@ __step 2:__ Inside the __rules.yml__ file (setting role to that activate the cus
       - intent: inquire_time
       - action: action_tell_time
 ```
-__step 3:__ inside the __domain.yml__ we need to configure the domain the for the custom action to "work" (add the intent we created,
+__step 3:__ inside the __domain.yml__ we need to configure the domain the for the custom action to "work" (add the intent, entities, custom action  we created)
 
 Adding the intent "inquire_time" (under intents:)
 
@@ -134,7 +134,7 @@ creating a python file for the code for the custom action.
             return "action_tell_time"
 
         def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-            current_place = next(tracker.get_latest_entity_calue("place"), None) // gets the "place" if its empty it will fill with "None"
+            current_place = next(tracker.get_latest_entity_value("place"), None) // gets the "place" if its empty it will fill with "None"
             utc.arrow.utcnow()
 
             // if current_place is empty it return a utc time - a fallback
@@ -181,3 +181,79 @@ starting the custom action api (done on 2 terminal)
 ```
     rasa shell
 ```
+
+## Example 2
+this example is an expend on the first example. we add a place for location of the user and it display the different in time to the location he ask.
+
+![Pipline & Policy](../images/custom_actions914.gif)
+
+__note__ these steps are __add__ to the exciting files (from example 1).
+
+__step 1:__ adding intents to the __nlu.yml__ file;
+
+```
+   - intent: where_i_live
+     examples: |
+      - please remember that i live in [Amsterdam](place)?
+      - my house is in [London](place)
+      - reminder. i live in [Lisbon](place)
+      - my residence is in [Berlin}(place)
+      - remeber that i live in [london](place)
+   - intent: inquire_time_difference
+     examples: |
+      - time difference between [Amsterdam(place)?
+      - what is my time difference with [London](place)?
+      - how bigis the time delta with [Berlin](place)?
+      - is there a time difference with [Lisbon](place)?
+      - what is the time difference with[amsterdam](place)
+```
+
+__step 1:__ adding a role to activate the intents in the __rules.yml__ file;
+
+```
+    - rule: Where I live intent
+     steps:
+     - intent: where_i_live
+     - action: action_remember_where
+
+    - rule: Time Difference Intent
+      steps:
+      - intent: inquire_time_difference
+      - action: action_time_difference
+```
+
+__step 2:__ inside the __domain.yml__ we need to configure the domain the for the custom action to "work" (add the intent, entities, custom action  we created)
+
+__step 3:__ in the custom action file (actions.py) we need to add two more custom actions (action_remember_where and action_time_difference);
+
+Add to the import section:
+```
+    from rasa_sdk.events import SlotSet
+```
+
+```
+   class ActionRememberWhere(Action):
+      def name(self) -> Text:
+         return "action_remember_where"
+
+      def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            current_place = next(tracker.get_latest_entity_value("place"), None) // gets the "place" if its empty it will fill with "None"
+            utc.arrow.utcnow()
+
+            // if current_place is empty it return a utc time - a fallback
+            if not current_place:
+                msg = f"I didn't get where you live. Are you sure it's spelled correctly?"
+                dispatcher.utter_message(text=msg)
+                return []
+
+            // if current_place not found in the database - a fallback
+            tz_string = city_db.get(current_place, None)
+            if not tz_string:
+                msg = f"I didn't recognize {current_place}. Is it spelled correctly?"
+                dispatcher.utter_message(text=msg)
+                return []
+
+            msg = f"Sure thing! I'll remember that you live in {current_place}."
+            dispatcher.utter_message(text=msg)
+
+            return [SlotSet("location", current_place)]
