@@ -60,7 +60,7 @@ __step 1:__ Inside the __nlu.yml__ file;
 
     add an intent (inquire_time);
 
-```
+```nlu.yml
     - intent: inquire_time
       examples: |
         - what time is it?
@@ -72,7 +72,7 @@ __step 1:__ Inside the __nlu.yml__ file;
 ```
   adding a lookup table (for later use);
 
-```
+```nlu.yml
     - lookup: place
       examples: |
         - brussels
@@ -84,7 +84,7 @@ __step 1:__ Inside the __nlu.yml__ file;
 ```
 __step 2:__ Inside the __rules.yml__ file (setting role to that activate the custom action (action: action_tell_time) when ever the intent "inquire_time" is triggered);
 
-```
+```rules.yml
     - rule: Tell the time
       steps:
       - intent: inquire_time
@@ -111,7 +111,7 @@ __step 4:__ to be sure we detect the objects properly we set in the __config.yml
 __step 5:__ The __custom action__ file (actions.py - under actions folder)
 creating a python file for the code for the custom action.
 
-```
+```actions.py
       from typing Any, Text, Dict, List
 
       import arrow
@@ -164,9 +164,8 @@ __*Note__ this run the custom action on a different service seperet from the ras
 
 From __Rasa 3__ you can configure the custom action to run in the same process as the main Rasa assisant (in-process actions). by setting in the endpoint.yml file;
 
-```
-      # endpoints.yml
-      action_endpoint:
+```endpoints.yml
+       action_endpoint:
           action_module: "CUSTOM ACTION NAME"
 ```
 
@@ -174,11 +173,11 @@ From __Rasa 3__ you can configure the custom action to run in the same process a
 There a need to run both the rasa NLU and the custom action api on two separate terminals.
 
 starting the custom action api (done on 1 terminal)
-```
+```terminal
     rasa run action
 ```
 starting the custom action api (done on 2 terminal)
-```
+```terminal
     rasa shell
 ```
 
@@ -191,7 +190,7 @@ __note__ these steps are __add__ to the exciting files (from example 1).
 
 __step 1:__ adding intents to the __nlu.yml__ file;
 
-```
+```nlu.yml
    - intent: where_i_live
      examples: |
       - please remember that i live in [Amsterdam](place)?
@@ -210,7 +209,7 @@ __step 1:__ adding intents to the __nlu.yml__ file;
 
 __step 1:__ adding a role to activate the intents in the __rules.yml__ file;
 
-```
+```rules.yml
     - rule: Where I live intent
      steps:
      - intent: where_i_live
@@ -227,12 +226,12 @@ __step 2:__ inside the __domain.yml__ we need to configure the domain the for th
 __step 3:__ in the custom action file (actions.py) we need to add two more custom actions (action_remember_where and action_time_difference);
 
 Add to the import section:
-```
+```actions.py
     from rasa_sdk.events import SlotSet
 ```
 
 Add this class 
-```
+```actions.py
    class ActionRememberWhere(Action):
       def name(self) -> Text:
          return "action_remember_where"
@@ -262,7 +261,7 @@ Add this class
 
 Aslo add this code (another action - action_time_difference);
 
-```
+```actions.py
     class ActionTimeDifference(Action):
 
        def name(self) -> Text:
@@ -304,7 +303,7 @@ Aslo add this code (another action - action_time_difference);
 There a need to run both the rasa NLU and the custom action api on two separate terminals (unless you configure it to work in the same rasa service - as shown above).
 
 starting the custom action api (done on 1 terminal)
-```
+```terminal
     rasa run action
 ```
 starting the custom action api (done on 2 terminal)
