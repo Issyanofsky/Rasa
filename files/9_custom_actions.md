@@ -231,6 +231,7 @@ Add to the import section:
     from rasa_sdk.events import SlotSet
 ```
 
+Add this class 
 ```
    class ActionRememberWhere(Action):
       def name(self) -> Text:
@@ -257,3 +258,60 @@ Add to the import section:
             dispatcher.utter_message(text=msg)
 
             return [SlotSet("location", current_place)]
+```
+
+Aslo add this code (another action - action_time_difference);
+
+```
+    class ActionTimeDifference(Action):
+
+       def name(self) -> Text:
+           return "action_time_difference"
+
+       
+      def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+           timezone_to = next(tracker.get_latest_entity_value("place"), None)
+           timezone_in = tracker.get_slot("location")
+
+           if not timezone_in:
+               msg = "To calculuate the time difference I need to know where you live."
+               dispatcher.utter_message(text=msg)
+               return []
+
+           if not timezone_to:
+               msg = "i didn't find the timezone you'd like to compare against. Are you sure it's spelled correctly?"
+               dispatcher.utter_message(text=msg)
+               return []
+
+            tz_string = city_db.get(timezone_to, None)
+            if not tz_string:
+                msg = f"I didn't recognize {timezone_to}. Is it spelled correctly?"
+                dispatcher.utter_message(text=msg)
+                return []
+
+            t1 = arrow.utcnow().to(city_db[timezone_to])
+            t2 = arrow.utcnow().to(city_db[timezone_in])
+            max_t, min_t = max(t1, t2), min(t1, t2)
+            diff_seconds = dateparser.parse(str(max_t)[:19]) - dateparser.parse(str(min_t)[:19])
+            diff_hours = int(diff_seconds.seconds/3600)
+
+            msg = f"There is a {min(diff_hours, 24-diff_hours)}H time difference."
+            dispatcher.utter_message(text=msg)
+
+            return []
+```
+## To run it 
+There a need to run both the rasa NLU and the custom action api on two separate terminals (unless you configure it to work in the same rasa service - as shown above).
+
+starting the custom action api (done on 1 terminal)
+```
+    rasa run action
+```
+starting the custom action api (done on 2 terminal)
+```terminal
+    rasa interactive
+```
+__*Note:__
+rasa interactive - a mode that lets you chat with your assistant in real time, see every step it takes (intents, entities, actions, and predictions), and correct or confirm them to improve your training data instantly.
+
+```
