@@ -178,3 +178,134 @@ In cases like this you need to define the slots not to aquiere entites if they o
 
 
 ![Pipline & Policy](../images/custom_froms1102.gif)
+
+The condition makes sure the slot only filled if it inside the form loop.
+
+## Examples - making the form more dynamic
+making the form more dynamc using buttons.
+
+![Pipline & Policy](../images/custom_froms1103.gif)
+
+we need create a form (we add it to the exsisting) that have a "vegetarin" slot that we need (knowing the path for the question)
+
+```yaml
+    fancy_pizza_form:
+        required_slots:
+        - vegetarian
+        - pizza_size
+        - pizza_type
+```
+
+declaring slots (under domain.yml)
+
+```yaml
+    slots:
+        pizza_size:
+            type: text
+            influence_conversation: true
+            mappings:
+            - type: from_entity
+              entity: pizza_size
+        pizza_type:
+            type: text
+            influence_conversation: true
+            mappings:
+            - type: from_entity
+              entity: pizza_type
+        vegetarian:
+            type: bool
+            influence_conversation: true
+            mappings:
+            - type: from_intent
+              value: true
+              intent: affirm
+            - type: from_intent
+              value: false
+              intent: deny
+```
+Custom action to create buttons.
+
+in the actions.py
+```python
+    class AskForVegetarianAction(Action):
+        def name(self) -> Text:
+            return "action_ask_vegetarian"
+
+        def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> List[EventType]:
+            dispatcher.utter_message(text="Would you like to order a vegetarian pizza?",
+                buttons=[{"title": "yes", "payload": "/affirm"}, {"title": "no", "payload": "/deny"}])
+            return []
+```
+This custom action will called by a form by the naming convection - **action_ask_[slotname]**
+
+The idea is, that after the button been clicked. befor the validate kick-in. and if the correct intens are detected we will be able to set the slots apropebly.
+
+```yaml
+        def validation_vegetarian(self, alot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> Dict[Text, Any]:
+        """ Validate 'pizza_size' value."""
+        if tracker.get_intent_of_latest_message() == "affirm":
+            dispatcher.utter_message(text="I'll remember you prefer vegetarian."
+            return {"vegetarian": True}
+         if tracker.get_intent_of_latest_message() == "deny":
+            dispatcher.utter_message(text="I'll remember you DON'T want a vegetarian pizza."
+            return {"vegetarian": False}
+         dispatcher.utter_message(text="I didn't get that."
+         return {"vegetarian": None}
+```
+
+```yaml
+    class AskFroPizzaTypeAction(Action):
+        def name(self) -> Text:
+            return "action_ask_pizza_type"
+
+        def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> Dict[EventType]:
+            if tracker.get_slot("vegetarian"):
+                dispatcher.utter_message(text=" what kind of pizza do you want?",
+                    buttons=[{"title": p, "payload": p} for p in VEGETARIAN_PIZZAS])
+            elif tracker.get_slot("vegetarian") == False:
+                dispatcher.utter_message(text=" what kind of pizza do you want?",
+                    buttons=[{"title": p, "payload": p} for p in MEAT_PIZZAS])
+            else:
+                dispatcher.utter_message(text=" what kind of pizza do you want to buy?")
+            return []
+```
+
+Under Rules.yml:
+
+```yaml
+    - rule: Activate Fancy Pizza Form
+      steps:
+      - intent: buy_fancy_pizza
+      - action: fancy_pizza_form
+      - active_loop: fancy_pizza_form
+
+    - rule: Submit Fancy Pizza Form
+      condition:
+      - active_loop: fancy_pizza_form
+      steps:
+      - action: fancy_pizza_form
+      - active_loop: null
+      - slot_was_set:
+        - requested_slot: null
+      - action: utter_submit
+      - action: utter_pizza_slot
+```
+
+On he action.py
+
+```python
+     ALLOWED_PIZZA_SIZES =[
+        "small",
+        "medium",
+        "large",
+        "extra large",
+        "extra-large",
+        "s",
+        "m",
+        "l",
+        "xl"
+    ]
+    ALLOWED_PIZZA_TYPES = ["mozzarella", "fungi", "veggie", "pepperoni", "hawaii"]
+    VEGETARIAN_PIZZAS = ["mozzarella", "fungi", "veggie"]
+    MEAT_PIZZAS =["pepperoni", "hawaii"]
+```
