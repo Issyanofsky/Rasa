@@ -181,7 +181,7 @@ Add this validation class:
                 dispatcher.utter_message(text=f"We only accept pizza sizes: s/m/l/xl."
                 return {"pizza_size": None}
             dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza."
-            return{"pizza_size": slot_value}
+            return {"pizza_size": slot_value}
 
         def validate_pizza_type(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]"
             """Validate 'pizza_type' value"""
@@ -190,6 +190,6 @@ Add this validation class:
                 dispatcher.utter_message(text=f"I don't recognize that pizza. we serve: {','.join(ALLOWED_PIZZA_TYPES)}."
                 return {"pizza_type": None}
             dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza."
-            return{"pizza_type": slot_value}
+            return {"pizza_type": slot_value}
 ```
 
