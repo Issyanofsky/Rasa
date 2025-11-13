@@ -26,6 +26,7 @@ __Policies__ and __Rules__ are what make your bot smart in deciding what to do n
 
 define the steps user message will be passed through until a decision (understaning) on what the user's messgae in about.
 
+```yaml
       pipeline:
         - name: WhitespaceTokenizer        # 1. Breaks text into words - ["Book", "a", "flight", "to", "New", "York", "tomorrow", "."]
         - name: RegexFeaturizer            # 2. Detects patterns like emails or numbers
@@ -33,6 +34,7 @@ define the steps user message will be passed through until a decision (understan
         - name: CountVectorsFeaturizer     # 4. Converts words into numbers (vectors) so the model can do math with them.
         - name: DIETClassifier             # 5. Learns to predict intent & entities
         - name: EntitySynonymMapper        # 6. Maps synonyms (e.g. “NYC” = “New York”)
+```
 
 __*note:__  
   1. The pipeline is a step-by-step process that turns a user’s message into meaning. so the order they place can matter).
@@ -59,7 +61,7 @@ __*Note__ priority level are set by defualt - not recomended to cange them.
 
 ### 3 main policies:
 
-```
+```yaml
     policies:
   - name: RulePolicy
   - name: MemoizationPolicy
@@ -68,7 +70,7 @@ __*Note__ priority level are set by defualt - not recomended to cange them.
 
   1. __RulePolicy__ - Handles hard-coded rules in your bot. explicitly tell Rasa to always do, regardless of probabilities (e.g. When user says hello, always respond with utter_greet)
 
-```
+```yaml
     policies:
         name: "RulePolicy"
         core_fallback_threshold: 0.3
@@ -77,7 +79,7 @@ __*Note__ priority level are set by defualt - not recomended to cange them.
         check_for_contradictions: true
 ```
 
-```
+```yaml
      rules:
       - rule: Greet the user
         steps:
@@ -90,7 +92,7 @@ __*Note__ priority level are set by defualt - not recomended to cange them.
 
 ![Pipline & Policy](../images/pipline804.gif)
 
-```
+```yaml
     policies:
       - name: TEDPolicy                  # Use the Transformer Embedding Dialogue Policy for predicting next actions
         max_history: 5                   # How many previous conversation turns (user + bot) are considered
