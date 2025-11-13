@@ -52,7 +52,7 @@ we want not just stopping the form but also to get the user confirm. the best wa
       - action_loop: null
 ```
 for better learnign its recommended to add more stories:
-``yaml
+```yaml
     - story: User interrupts the form and doesn't want to continue
         steps: 
         - intent: greet
