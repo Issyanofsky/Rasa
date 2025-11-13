@@ -44,6 +44,7 @@ __how a Stories look like__
 
 ![Stories](../images/stories401.gif)
 
+```yaml
     stories:
       - story: happy path # Define the story name (any desctiption name)
         steps:
@@ -51,6 +52,7 @@ __how a Stories look like__
           - action: utter_greet
           - intent: mood_great
           - action: utter_happy
+```
 In the pattern of the conversation (under steps):
 
   ### __intent__ - things that user say that the mechine model has detected.
@@ -70,10 +72,12 @@ A checkpoint is a marker inside a story that allows you to link or continue from
 ![checkpoint](../images/stories404.gif)
 __*Note:__ in Rasa 3.x __checkpoints were removed__. insted you compose story  containing the all "link" stories. 
 
+```yaml
     - story: greet and then ask weather
       steps:
       - story: greet user
       - story: ask about weather
+```
 
 # 3. Rules
 A way to describe short pieces of conversations that always go the same way.
@@ -120,7 +124,7 @@ __if you DON'T have conversation data:__
 Example: you have two intents:
 
 here we have two intents similar:
-
+```yaml
     book_train:
       - One train ticket
       - need to book a train ride
@@ -129,9 +133,10 @@ here we have two intents similar:
     book_plane:
       - One plane ticket
       - Need to book a plane ride
-
+```
 we can combine them together to one intent:
 
+```yaml
     make_booking:
       - One [train](train) ticket
       - Need to book a [train](train) ride
@@ -140,7 +145,7 @@ we can combine them together to one intent:
       - Need to book a [plane](air) ride
       - i'd like to book a trip
       - Need a vacation
-
+```
 ## Training data for an intent
 
   * __User-generated__ its much beter then __syntetic__ trining data.
@@ -152,9 +157,10 @@ we can combine them together to one intent:
       - Rasa learns “if the user says this (text), do this action”.
 
   yaml - example:
-  
+  ```yaml
     stories:
       - story: help or greet
         steps:
         - user: "Can you help me?"
         - action: utter_ask_how_to_help
+```
