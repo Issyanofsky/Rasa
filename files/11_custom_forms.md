@@ -172,4 +172,9 @@ for better learnign its recommended to add more stories:
         - action: utter_goodbye
 ```
 
-### 3. 
+### 3. Unintended Slots
+There are cases where the assistant may fill a slot not related ( confusing medium to be the pizza size).
+In cases like this you need to define the slots not to aquiere entites if they out-side the form entering (note that there are cases you want the conversation to fill slots even if they appear out-side the form loop)
+
+
+![Pipline & Policy](../images/custom_froms1102.gif)
