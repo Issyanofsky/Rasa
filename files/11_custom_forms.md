@@ -227,6 +227,7 @@ Custom action to create buttons.
 
 in the actions.py
 ```python
+
     class AskForVegetarianAction(Action):
         def name(self) -> Text:
             return "action_ask_vegetarian"
@@ -240,7 +241,7 @@ This custom action will called by a form by the naming convection - **action_ask
 
 The idea is, that after the button been clicked. befor the validate kick-in. and if the correct intens are detected we will be able to set the slots apropebly.
 
-```yaml
+```python
         def validation_vegetarian(self, alot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> Dict[Text, Any]:
         """ Validate 'pizza_size' value."""
         if tracker.get_intent_of_latest_message() == "affirm":
@@ -253,7 +254,7 @@ The idea is, that after the button been clicked. befor the validate kick-in. and
          return {"vegetarian": None}
 ```
 
-```yaml
+```python
     class AskFroPizzaTypeAction(Action):
         def name(self) -> Text:
             return "action_ask_pizza_type"
