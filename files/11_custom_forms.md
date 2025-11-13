@@ -51,6 +51,125 @@ we want not just stopping the form but also to get the user confirm. the best wa
       - action: action_deactivate_loop
       - action_loop: null
 ```
+for better learnign its recommended to add more stories:
+``yaml
+    - story: User interrupts the form and doesn't want to continue
+        steps: 
+        - intent: greet
+        - action: utter_greet
+        - intent: buy_pizza
+        - action: simple_pizza_form
+        - active_loop: simple_pizza_form
+        - intent: stop
+        - action: utter_ask_continue
+        - or:
+            - intent: stop
+            - intent: affirm
+        - action: action_deactivate_loop
+        - active_loop: null
 
+    - story: interactive story 2
+        steps:
+        - intent: greet
+        - action: utter_greet
+        - intent: buy_pizza
+        - action: simple_pizza_form
+        - active_loop: simple_pizza_form
+        - slot_was_set:
+            - requested_slot: pizza_size
+        - intent: stop
+        - action: utter_ask_continue
+        - intent: stop
+        - action: action_deactivate_loop
+        - active_loop: null
+        - slot_was_set: 
+            - requested_slot: null
+        - intent: goodbye
+        - action: utter_goodbye
+        
+    - story: interactive story 3
+        steps:
+        - intent: greet
+        - action: utter_greet
+        - intent: buy_pizza
+        - action: simple_pizza_form
+        - active_loop: simple_pizza_form
+        - slot_was_set:
+            - requested_slot: pizza_size
+        - slot_was_set:
+            - pizza_size: s
+        - slot_was_set:
+            - requested_slot: pizza_type
+        - intent: stop
+        - action: utter_ask_continue
+        - intent: affirm
+        - action: action_deactivate_loop
+        - active_loop: null
+        - slot_was_set:
+            - requested_slot: null
+        - intent: goodbye
+        - action: utter_goodbye
 
+    - story: interactive story 4
+        steps:
+        - intent: greet
+        - action: utter_greet
+        - intent: buy_pizza
+        - action: simple_pizza_form
+        - active_loop: simple_pizza_form
+        - slot_was_set:
+            - requested_slot: pizza_size
+        - intent: stop
+        - action: utter_ask_continue
+        - intent: affirm
+        - action: action_deactivate_loop
+        - active_loop: null
+        - slot_was_set:
+            - requested_slot: null
+        - intent: buy_pizza
+        - action: simple_pizza_form
+        - active_loop: simple_pizza_form
+        - slot_was_set:
+            - requested_slot: pizza_size
+         - slot_was_set:
+             - pizza_size: large
+         - slot_was_set:
+             - pizza_size: large
+         - slot_was_set:
+            - requested_slot: pizza_type
+         - slot_was_set:
+             - pizza_size: pepperoni
+         - slot_was_set:
+             - pizza_size: pepperoni            
+         - slot_was_set:
+             - requested_slot: null
+         - active_loop: null
+         - action: utter_submit
+         - action: utter_pizza_slots
 
+    - story: interactive story 5
+        steps:
+        - intent: greet
+        - action: utter_greet
+        - intent: buy_pizza
+        - action: simple_pizza_form
+        - active_loop: simple_pizza_form
+        - slot_was_set:
+            - requested_slot: pizza_size
+        - intent: bot_challange
+        - action: utter_iamabot
+        - action: simple_pizza_form
+        - slot_was_set:
+            - requested_slot: pizza_size
+        - intent: stop
+        - action: utter_ask_continue
+        - intent: affirm
+        - action: action_deactivate_loop
+        - active_loop: null
+        - slot_was_set:
+            - requested_slot: null
+        - intent: goodbye
+        - action: utter_goodbye
+```
+
+### 3. 
