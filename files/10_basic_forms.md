@@ -66,7 +66,7 @@ Inside the __rules.yml__ file:
         steps:
         - intent: buy_pizza
         - action: simple_pizza_form
-        - action_loop: simple_pizza_form
+        - active_loop: simple_pizza_form
 
       - rule: Submit Pizza Form
         condition:
