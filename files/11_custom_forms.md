@@ -242,6 +242,10 @@ This custom action will called by a form by the naming convection - **action_ask
 The idea is, that after the button been clicked. befor the validate kick-in. and if the correct intens are detected we will be able to set the slots apropebly.
 
 ```python
+    class ValidateFancyPizzaForm(FormValidationAction):
+        def name(self) -> Text:
+            return "validate_fancy_pizza_form"
+
         def validation_vegetarian(self, alot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> Dict[Text, Any]:
         """ Validate 'pizza_size' value."""
         if tracker.get_intent_of_latest_message() == "affirm":
@@ -252,6 +256,8 @@ The idea is, that after the button been clicked. befor the validate kick-in. and
             return {"vegetarian": False}
          dispatcher.utter_message(text="I didn't get that."
          return {"vegetarian": None}
+
+        def validate_pizza_size(self, slot_value: Any, dispatcher: CollectingDispatcher,.............
 ```
 
 ```python
@@ -293,6 +299,14 @@ Under Rules.yml:
 ```
 
 On he action.py
+```python
+    from typing import Text, List, Any, Dict
+
+    from rasa_sdk import Tracker, FormValidationAction, Action
+    from rasa_sdk.events import EventType
+    from rasa_sdk.execute import CollectingDispatcher
+    from rasa_sdk.types import DomainDict
+```
 
 ```python
      ALLOWED_PIZZA_SIZES =[
