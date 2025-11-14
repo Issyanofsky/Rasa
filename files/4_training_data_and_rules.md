@@ -15,7 +15,7 @@
 # 1. What is training data for a Rasa assistant?
 
 What is "__data__" for Rasa project?
-  * The text data used to pretrain any models or features you're using (e.g. language models, wrod embaddings, etc,)
+  * The text data used to pretrain any models or features you're using (e.g. language models, word embaddings, etc,)
   * User-generated text - what the user usualy type (ex. what are the differante ways your customers say "hello").
   * Pattens of conversations - pattern that happen in a conversation (e.g.if a user say "hello" to the assistanse, what the assistant will replay).
 
