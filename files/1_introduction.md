@@ -23,7 +23,7 @@ __Task oriented dialogue systems__
 # 1. What can you do with Rasa:
 * Rasa is a framework that makes it easier to build custom chatbots.
 * The core of building a Rasa assisant is __providing examples that your system learn from__;
-  - How do people say things? - what the diferante ways people prase what they want.
+  - How do people say things? - what the diferante ways people pharse what they want.
   - How do conversations go? - what paterns i the system should handle.
 * highly customizable and support everithing fromm hobby projects to complex enterprise systems.
 
