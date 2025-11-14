@@ -29,7 +29,11 @@ check if rasa installed (on terminal):
 ```bash
     rasa -h
 ```
+__OR__
 
+```bash
+    rasa --version
+```
 Create a new project
 
 ```bash
