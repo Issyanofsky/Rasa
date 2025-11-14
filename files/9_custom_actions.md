@@ -61,34 +61,35 @@ __step 1:__ Inside the __nlu.yml__ file;
     add an intent (inquire_time);
 
 ```nlu.yml
-    - intent: inquire_time
-      examples: |
-        - what time is it?
-        - what time is it in [Amsterdam](place)?
-        - what time is it in [London](place)?
-        - tell me thetime in [Lisbon](place)
-        - what is the current time in [Berlin](place)
-        - what time is it in [amsterdam](place)
+- intent: inquire_time
+  examples: |
+    - what time is it?
+    - what time is it in [Amsterdam](place)?
+    - what time is it in [London](place)?
+    - tell me thetime in [Lisbon](place)
+    - what is the current time in [Berlin](place)
+    - what time is it in [amsterdam](place)
 ```
   adding a lookup table (for later use);
 
 ```nlu.yml
-    - lookup: place
-      examples: |
-        - brussels
-        - zagrev
-        - london
-        - lisbon
-        - amsterdam
-        - seattle
+- lookup: place
+  examples: |
+    - brussels
+    - zagrev
+    - london
+    - lisbon
+    - amsterdam
+    - seattle
+    - tel-aviv
 ```
 __step 2:__ Inside the __rules.yml__ file (setting role to that activate the custom action (action: action_tell_time) when ever the intent "inquire_time" is triggered);
 
 ```rules.yml
-    - rule: Tell the time
-      steps:
-      - intent: inquire_time
-      - action: action_tell_time
+- rule: Tell the time
+  steps:
+  - intent: inquire_time
+  - action: action_tell_time
 ```
 __step 3:__ inside the __domain.yml__ we need to configure the domain the for the custom action to "work" (add the intent, entities, custom action  we created)
 
