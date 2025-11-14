@@ -61,7 +61,7 @@ If the assistant run throw multiple channels using multiple connecters. you can 
 ![Channel specific responses](../images/responses303.gif)
 
 __Custom output payloads:__
-As long as it in JSON format. you can upload custom paylioads.
+As long as it in JSON format. you can upload custom payloads.
 
 ![Custom output payloads](../images/responses304.gif)
 
