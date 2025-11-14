@@ -13,6 +13,11 @@
 
 __Installing Rasa__ - install via the rasa site ([Rasa Instalation](https://rasa.com/docs/pro/installation/overview/))
 
+Activating python virtual enviroment (windows Os):
+```bash
+    python -m venv venv
+    .\venv\Scripts\activate
+```
 __*note:__ if it's been a while, Update Rasa before you begin.
 
 ```bash
