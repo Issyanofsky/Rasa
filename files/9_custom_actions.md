@@ -236,31 +236,31 @@ Add to the import section:
 
 Add this class 
 ```actions.py
-   class ActionRememberWhere(Action):
-      def name(self) -> Text:
-         return "action_remember_where"
+class ActionRememberWhere(Action):
+    def name(self) -> Text:
+        return "action_remember_where"
 
-      def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-            current_place = next(tracker.get_latest_entity_value("place"), None) // gets the "place" if its empty it will fill with "None"
-            utc.arrow.utcnow()
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        current_place = next(tracker.get_latest_entity_value("place"), None) # gets the "place" if its empty it will fill with "None"
+        utc.arrow.utcnow()
 
-            // if current_place is empty it return a utc time - a fallback
-            if not current_place:
-                msg = f"I didn't get where you live. Are you sure it's spelled correctly?"
-                dispatcher.utter_message(text=msg)
-                return []
-
-            // if current_place not found in the database - a fallback
-            tz_string = city_db.get(current_place, None)
-            if not tz_string:
-                msg = f"I didn't recognize {current_place}. Is it spelled correctly?"
-                dispatcher.utter_message(text=msg)
-                return []
-
-            msg = f"Sure thing! I'll remember that you live in {current_place}."
+        # if current_place is empty it return a utc time - a fallback
+        if not current_place:
+            msg = f"I didn't get where you live. Are you sure it's spelled correctly?"
             dispatcher.utter_message(text=msg)
+            return []
 
-            return [SlotSet("location", current_place)]
+        # if current_place not found in the database - a fallback
+        tz_string = city_db.get(current_place, None)
+        if not tz_string:
+            msg = f"I didn't recognize {current_place}. Is it spelled correctly?"
+            dispatcher.utter_message(text=msg)
+            return []
+
+        msg = f"Sure thing! I'll remember that you live in {current_place}."
+        dispatcher.utter_message(text=msg)
+
+        return [SlotSet("location", current_place)]
 ```
 
 Aslo add this code (another action - action_time_difference);
@@ -268,40 +268,40 @@ Aslo add this code (another action - action_time_difference);
 ```actions.py
     class ActionTimeDifference(Action):
 
-       def name(self) -> Text:
-           return "action_time_difference"
+    def name(self) -> Text:
+        return "action_time_difference"
 
        
-      def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-           timezone_to = next(tracker.get_latest_entity_value("place"), None)
-           timezone_in = tracker.get_slot("location")
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        timezone_to = next(tracker.get_latest_entity_value("place"), None)
+        timezone_in = tracker.get_slot("location")
 
-           if not timezone_in:
-               msg = "To calculuate the time difference I need to know where you live."
-               dispatcher.utter_message(text=msg)
-               return []
-
-           if not timezone_to:
-               msg = "i didn't find the timezone you'd like to compare against. Are you sure it's spelled correctly?"
-               dispatcher.utter_message(text=msg)
-               return []
-
-            tz_string = city_db.get(timezone_to, None)
-            if not tz_string:
-                msg = f"I didn't recognize {timezone_to}. Is it spelled correctly?"
-                dispatcher.utter_message(text=msg)
-                return []
-
-            t1 = arrow.utcnow().to(city_db[timezone_to])
-            t2 = arrow.utcnow().to(city_db[timezone_in])
-            max_t, min_t = max(t1, t2), min(t1, t2)
-            diff_seconds = dateparser.parse(str(max_t)[:19]) - dateparser.parse(str(min_t)[:19])
-            diff_hours = int(diff_seconds.seconds/3600)
-
-            msg = f"There is a {min(diff_hours, 24-diff_hours)}H time difference."
+        if not timezone_in:
+            msg = "To calculuate the time difference I need to know where you live."
             dispatcher.utter_message(text=msg)
-
             return []
+
+        if not timezone_to:
+            msg = "i didn't find the timezone you'd like to compare against. Are you sure it's spelled correctly?"
+            dispatcher.utter_message(text=msg)
+            return []
+
+        tz_string = city_db.get(timezone_to, None)
+        if not tz_string:
+            msg = f"I didn't recognize {timezone_to}. Is it spelled correctly?"
+            dispatcher.utter_message(text=msg)
+            return []
+
+        t1 = arrow.utcnow().to(city_db[timezone_to])
+        t2 = arrow.utcnow().to(city_db[timezone_in])
+        max_t, min_t = max(t1, t2), min(t1, t2)
+        diff_seconds = dateparser.parse(str(max_t)[:19]) - dateparser.parse(str(min_t)[:19])
+        diff_hours = int(diff_seconds.seconds/3600)
+
+        msg = f"There is a {min(diff_hours, 24-diff_hours)}H time difference."
+        dispatcher.utter_message(text=msg)
+
+        return []
 ```
 ## To run it 
 There a need to run both the rasa NLU and the custom action api on two separate terminals (unless you configure it to work in the same rasa service - as shown above).
