@@ -28,7 +28,7 @@ Examples where we can get data:
 Stories - training data to teach the asistant what it should do next.
 
 If you have a storie discribing the same pattern the conversation went. the pattern that used in the storie will be triggered.
-It, however, you have a pattern of conversation the assistant did'nt seen before, it will look at all stories and guess what it most likely fit (which storie). if it not sure which storie fit (under a trash level we set) it will start a pallback.
+It, however, you have a pattern of conversation the assistant did'nt seen before, it will look at all stories and guess what it most likely fit (which storie). if it not sure which story fit (under a trash level we set) it will start a fallback.
 
 __how to set patterns (stories):__
   - __If you have conversation data__:
