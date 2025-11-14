@@ -48,7 +48,7 @@ influence_conversation = false - configuration defines that the slot would not i
 In this example: the slot of the name ("Anna") is not influencing the flight booking.
 
 __Configureing the stories__
-If you configure spesific slots to influence the conversation, you need to add include them in the training story to teach the assistant how to frive the conversation base on the behvior of the slots. this can be done by including steps "slot_was_set" inside the training story and providing the detailes about the slots and the values that should be set at specific steps of the conversation.
+If you configure specific slots to influence the conversation, you need to add include them in the training story to teach the assistant how to frive the conversation base on the behvior of the slots. this can be done by including steps "slot_was_set" inside the training story and providing the detailes about the slots and the values that should be set at specific steps of the conversation.
 
 
 ![Slots](../images/slots606.gif)
