@@ -273,7 +273,7 @@ Aslo add this code (another action - action_time_difference);
 
        
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        timezone_to = next(tracker.get_latest_entity_value("place"), None)
+        timezone_to = next(tracker.get_latest_entity_values("place"), None)
         timezone_in = tracker.get_slot("location")
 
         if not timezone_in:
