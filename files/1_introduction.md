@@ -47,7 +47,7 @@ we do this using:
     - Require traning examples (in general, the more the better).
     - But the're very good at handling things they haven't seen before, making "informed guess".
 
-__A Rasa assistent might use both, but teh neural methods are the core of the framework.__
+__A Rasa assistent might use both, but the neural methods are the core of the framework.__
 
 ## Diciding what to do next
 
