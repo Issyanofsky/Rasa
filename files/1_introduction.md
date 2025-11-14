@@ -38,7 +38,7 @@ __Task oriented dialogue systems__
 
 we do this using:
   * __Rule-based:__
-    - Example: A regular epression that finds and extracts email addresses.
+    - Example: A regular expression that finds and extracts email addresses.
     - You don't need much/any data for these approaches.
     - Thay can run very fast.
     - BUT the're not very good at handling things they haven't seen before.
