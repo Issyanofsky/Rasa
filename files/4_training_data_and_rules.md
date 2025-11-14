@@ -107,7 +107,7 @@ __if you DON'T have conversation data:__
 ## Why to use FEWER intents?
   * __Older style of conversational design:__ you need an intent for everything your user might want to do!
   * __Rasa style (CDD):__
-    - You only need to start wih the most popular, important intents & a way to handle things outside them.
+    - You only need to start with the most popular, important intents & a way to handle things outside them.
     - Continue to build from there if that's what user need (add intents).
   * __Human reasons:__
     - More intents = more training data, maintenance and documentation.
