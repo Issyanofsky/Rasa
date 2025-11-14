@@ -241,7 +241,7 @@ class ActionRememberWhere(Action):
         return "action_remember_where"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        current_place = next(tracker.get_latest_entity_value("place"), None) # gets the "place" if its empty it will fill with "None"
+        current_place = next(tracker.get_latest_entity_values("place"), None) # gets the "place" if its empty it will fill with "None"
         utc.arrow.utcnow()
 
         # if current_place is empty it return a utc time - a fallback
