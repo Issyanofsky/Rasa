@@ -45,6 +45,7 @@ __Adding variant Responses:__
 ![Variation Responses](../images/responses301.gif)
 
 __* Note:__ when this is triggered, one of the responses will be randomly selected.
+
 __* Note:__ {name} will be filled with the value of the name (in a slot). will return "None" untill it's filled.
 
 __Buttons and Images:__
