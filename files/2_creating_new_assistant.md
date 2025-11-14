@@ -77,3 +77,8 @@ shell - allow to talk to the assistant in a shell (terminal)
 ```bash
     rasa shell --debug
 ```
+
+__rasa interactive__ starts Interactive Learning mode, which lets you (need to execute in the folder where the init):
+```bash
+    rasa interactive
+```
