@@ -195,34 +195,34 @@ __note__ these steps are __add__ to the exciting files (from example 1).
 __step 1:__ adding intents to the __nlu.yml__ file;
 
 ```nlu.yml
-   - intent: where_i_live
-     examples: |
-      - please remember that i live in [Amsterdam](place)?
-      - my house is in [London](place)
-      - reminder. i live in [Lisbon](place)
-      - my residence is in [Berlin}(place)
-      - remeber that i live in [london](place)
-   - intent: inquire_time_difference
-     examples: |
-      - time difference between [Amsterdam(place)?
-      - what is my time difference with [London](place)?
-      - how bigis the time delta with [Berlin](place)?
-      - is there a time difference with [Lisbon](place)?
-      - what is the time difference with[amsterdam](place)
+- intent: where_i_live
+  examples: |
+    - please remember that i live in [Amsterdam](place)?
+    - my house is in [London](place)
+    - reminder. i live in [Lisbon](place)
+    - my residence is in [Berlin}(place)
+    - remeber that i live in [london](place)
+- intent: inquire_time_difference
+  examples: |
+    - time difference between [Amsterdam(place)?
+    - what is my time difference with [London](place)?
+    - how bigis the time delta with [Berlin](place)?
+    - is there a time difference with [Lisbon](place)?
+    - what is the time difference with[amsterdam](place)
 ```
 
 __step 1:__ adding a role to activate the intents in the __rules.yml__ file;
 
 ```rules.yml
-    - rule: Where I live intent
-     steps:
-     - intent: where_i_live
-     - action: action_remember_where
+  - rule: Where I live intent
+    steps:
+    - intent: where_i_live
+    - action: action_remember_where
 
-    - rule: Time Difference Intent
-      steps:
-      - intent: inquire_time_difference
-      - action: action_time_difference
+  - rule: Time Difference Intent
+    steps:
+    - intent: inquire_time_difference
+    - action: action_time_difference
 ```
 
 __step 2:__ inside the __domain.yml__ we need to configure the domain the for the custom action to "work" (add the intent, entities, custom action  we created)
