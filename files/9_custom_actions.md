@@ -125,8 +125,9 @@ city_db = {
     'zagreb': 'Europe/Zagreb',
     'london': 'Europe/Dublin',
     'lisbon': 'Europe/Lisbon',
-    'amstterdam': 'Europe/Amsterdam',
+    'amsterdam': 'Europe/Amsterdam',
     'seattle': 'US/Pacific',
+    'tel-aviv': 'Asia/Jerusalem',
 }
 
 class ActionTellTime(Action):
@@ -135,7 +136,8 @@ class ActionTellTime(Action):
         return "action_tell_time"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        current_place = next(tracker.get_latest_entity_value("place"), None) #  gets the "place" if its empty it will fill with "None"            utc.arrow.utcnow()
+        current_place = next(tracker.get_latest_entity_values("place"), None) #  gets the "place" if its empty it will fill with "None" 
+        utc = arrow.utcnow()  # get current UTC time
 
         # if current_place is empty it return a utc time - a fallback
         if not current_place:
@@ -144,13 +146,15 @@ class ActionTellTime(Action):
             return []
 
         # if current_place not found in the database - a fallback
-        tz_string = city_db.get(current_place, None)
+        tz_string = city_db.get(current_place.lower(), None)
         if not tz_string:
             msg = f"I didn't recognize {current_place}. Is it spelled correctly?"
             dispatcher.utter_message(text=msg)
             return []
 
-        msg = f"It's {utc.to(city_db[current_place]).format('HH:mm')} in {current_place} now."
+        # Convert utc to the timezone of the city
+        local_time = utc.to(tz_string).format('HH:mm')
+        msg = f"It's {local_time} in {current_place} now."
         dispatcher.utter_message(text=msg)
 
         return []
