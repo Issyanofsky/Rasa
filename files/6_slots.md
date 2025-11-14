@@ -37,7 +37,7 @@ Slots can be configured to influence the flow of the conversation. how and when 
 __* Note__ the way slots influence the conversation depends on the type of the slot.
 
 __influence_conversation = true__
-influence_conversation = true - configuration defines that the slot will influence how the dialogue management model makes the prediction for the next action. Depending on the type of the slot the floe can be influenced by the value of the slot or whether the value of this slot is present.
+influence_conversation = true - configuration defines that the slot will influence how the dialogue management model makes the prediction for the next action. Depending on the type of the slot the flow can be influenced by the value of the slot or whether the value of this slot is present.
 
 ![Slots](../images/slots604.gif)
 
