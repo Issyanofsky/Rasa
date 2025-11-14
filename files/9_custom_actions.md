@@ -214,15 +214,15 @@ __step 1:__ adding intents to the __nlu.yml__ file;
 __step 1:__ adding a role to activate the intents in the __rules.yml__ file;
 
 ```rules.yml
-  - rule: Where I live intent
-    steps:
-    - intent: where_i_live
-    - action: action_remember_where
+- rule: Where I live intent
+  steps:
+  - intent: where_i_live
+  - action: action_remember_where
 
-  - rule: Time Difference Intent
-    steps:
-    - intent: inquire_time_difference
-    - action: action_time_difference
+- rule: Time Difference Intent
+  steps:
+  - intent: inquire_time_difference
+  - action: action_time_difference
 ```
 
 __step 2:__ inside the __domain.yml__ we need to configure the domain the for the custom action to "work" (add the intent, entities, custom action  we created)
