@@ -317,4 +317,75 @@ starting the custom action api (done on 2 terminal)
 __*Note:__
 rasa interactive - a mode that lets you chat with your assistant in real time, see every step it takes (intents, entities, actions, and predictions), and correct or confirm them to improve your training data instantly.
 
+this is the __domain.yaml__ file
+```yaml
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - inquire_time
+  - where_i_live
+  - inquire_time_difference
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+    buttons:
+    - title: "Yes"
+      payload: "/affirm"
+    - title: "No"
+      payload: "/deny"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+entities:
+  - place
+
+actions:
+  - action_tell_time
+  - action_time_difference
+  - action_remember_where
+
+slots:
+  place:
+    type: text
+    influence_conversation: False
+    mappings:
+    - type: from_entity
+      entity: place
+      intent: inquire_time
+    - type: from_entity
+      entity: place
+      intent: inquire_time_difference      
+  location:
+    type: text  
+    influence_conversation: False
+    mappings:
+    - type: from_entity
+      entity: place
+      intent: where_i_live
+    
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
 ```
