@@ -175,7 +175,7 @@ class ValidationSimplePizzaForm(FormValidationAction):
     def name(self) -> Text:
         return "validate_simple_pizza_form"
 
-    def validate_pizza_size(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]"
+    def validate_pizza_size(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
         """Validate 'pizza_size' value"""
 
         if slot_value.lower() not in ALLOWED_PIZZA_SIZES:
@@ -184,7 +184,7 @@ class ValidationSimplePizzaForm(FormValidationAction):
         dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza."
         return {"pizza_size": slot_value}
 
-    def validate_pizza_type(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]"
+    def validate_pizza_type(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
         """Validate 'pizza_type' value"""
 
         if slot_value.lower() not in ALLOWED_PIZZA_TYPES:
