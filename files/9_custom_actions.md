@@ -242,8 +242,10 @@ class ActionRememberWhere(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         current_place = next(tracker.get_latest_entity_values("place"), None) # gets the "place" if its empty it will fill with "None"
-        utc.arrow.utcnow()
-
+        # utc.arrow.utcnow()
+        if current_place:
+            current_place = current_place.lower()
+        print("DEBUG current_place =", repr(current_place))
         # if current_place is empty it return a utc time - a fallback
         if not current_place:
             msg = f"I didn't get where you live. Are you sure it's spelled correctly?"
@@ -266,7 +268,7 @@ class ActionRememberWhere(Action):
 Aslo add this code (another action - action_time_difference);
 
 ```actions.py
-    class ActionTimeDifference(Action):
+class ActionTimeDifference(Action):
 
     def name(self) -> Text:
         return "action_time_difference"
@@ -275,7 +277,9 @@ Aslo add this code (another action - action_time_difference);
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         timezone_to = next(tracker.get_latest_entity_values("place"), None)
         timezone_in = tracker.get_slot("location")
-
+        if timezone_to:
+            timezone_to = timezone_to.lower()
+        print("DEBUG current_place =", repr(timezone_to))
         if not timezone_in:
             msg = "To calculuate the time difference I need to know where you live."
             dispatcher.utter_message(text=msg)
@@ -292,11 +296,10 @@ Aslo add this code (another action - action_time_difference);
             dispatcher.utter_message(text=msg)
             return []
 
-        t1 = arrow.utcnow().to(city_db[timezone_to])
-        t2 = arrow.utcnow().to(city_db[timezone_in])
-        max_t, min_t = max(t1, t2), min(t1, t2)
-        diff_seconds = dateparser.parse(str(max_t)[:19]) - dateparser.parse(str(min_t)[:19])
-        diff_hours = int(diff_seconds.seconds/3600)
+        t1 = arrow.utcnow().to(city_db[timezone_to.lower()])
+        t2 = arrow.utcnow().to(city_db[timezone_in.lower()])
+        diff_hours = abs((t1 - t2).total_seconds() // 3600)
+        diff_hours = min(diff_hours, 24 - diff_hours)
 
         msg = f"There is a {min(diff_hours, 24-diff_hours)}H time difference."
         dispatcher.utter_message(text=msg)
