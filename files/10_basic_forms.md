@@ -64,22 +64,22 @@ Adding 2 rules for activating the form and the order pizza:
 Inside the __rules.yml__ file:
 
 ```yaml
-      - rule: Activate Pizza Form
-        steps:
-        - intent: buy_pizza
-        - action: simple_pizza_form
-        - active_loop: simple_pizza_form
+- rule: Activate Pizza Form
+  steps:
+  - intent: buy_pizza
+  - action: simple_pizza_form
+  - active_loop: simple_pizza_form
 
-      - rule: Submit Pizza Form
-        condition:
-        - active_loop: simple_pizza_form
-        steps:
-        - action: simple_pizza_form
-        - active_loop: null
-        - slot_was_set:
-          - requested_slot: null
-        - action: utter_submit
-        - action: utter_pizza_slot
+- rule: Submit Pizza Form
+  condition:
+  - active_loop: simple_pizza_form
+  steps:
+  - action: simple_pizza_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_submit
+  - action: utter_pizza_slot
 ```
 __Step 3:__
 define the form in the __domain.yaml__ file. we need to add an:
