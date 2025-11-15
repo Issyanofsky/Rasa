@@ -298,10 +298,15 @@ class ActionTimeDifference(Action):
 
         t1 = arrow.utcnow().to(city_db[timezone_to.lower()])
         t2 = arrow.utcnow().to(city_db[timezone_in.lower()])
-        diff_hours = abs((t1 - t2).total_seconds() // 3600)
+
+
+        # Compute local hour difference
+        diff_hours = abs(t1.hour - t2.hour)
         diff_hours = min(diff_hours, 24 - diff_hours)
 
-        msg = f"There is a {min(diff_hours, 24-diff_hours)}H time difference."
+        msg = f"There is a {diff_hours}H time difference."
+
+
         dispatcher.utter_message(text=msg)
 
         return []
