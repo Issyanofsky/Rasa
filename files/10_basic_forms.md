@@ -96,44 +96,44 @@ under intent, add this intent:
 ```
 adding in entities:
 ```yaml
-      - pizza_size
-      - pizza_type
+  - pizza_size
+  - pizza_type
 ```
 adding 2 slots:
 ```yaml
-      pizza_size:
-        type: text
-        influence_conversation: true
-        mappings:
-        - type: from_entity
-          entity: pizza_size
-      pizza_type:
-        type: text
-        influence_conversation: true
-        mappings:
-        - type: from_entity
-          entity: pizza_type
+  pizza_size:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: pizza_size
+  pizza_type:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: pizza_type  
 ```
 Add a form section (if not exsisting)
 ```yaml
-  forms:
-    simple_pizza_form:
-      required_slots:
-        - pizza_size
-        - pizza_type
+forms:
+  simple_pizza_form:
+    required_slots:
+      - pizza_size
+      - pizza_type
 ```
 Add resposes (nder responses):
 ```yaml
-      utter_submit:
-      - text: I will now order a pizza for you!
-      utter_pizza_slot:
-      - text: i will order a {pizza_size} {pizza_type} pizza.
-      utter_ask_continue:
-      - text: Are you sure you want to stop the form?
-      utter_ask_pizza_size:
-      - text: what size would you like your pizza to be?
-      utter_ask_pizza_type:
-      - text what kind of pizza you like to buy?
+  utter_submit:
+  - text: I will now order a pizza for you!
+  utter_pizza_slot:
+  - text: i will order a {pizza_size} {pizza_type} pizza.
+  utter_ask_continue:
+  - text: Are you sure you want to stop the form?
+  utter_ask_pizza_size:
+  - text: what size would you like your pizza to be?
+  utter_ask_pizza_type:
+  - text what kind of pizza you like to buy?
 ```
 Add under actions:
 ```yaml
