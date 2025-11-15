@@ -155,7 +155,7 @@ __*Note:__ the def for validating must follow a naming convection **validate_[sl
 Added this variables for validating the correct size and type
 ```python
 
-  ALLOWED_PIZZA_SIZES = {
+ALLOWED_PIZZA_SIZES = {
     "small": ["s", "small"],
     "medium": ["m", "medium"],
     "large": ["l", "large"],
