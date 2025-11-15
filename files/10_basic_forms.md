@@ -32,29 +32,30 @@ __Step 1:__
 Inside the __nlu.yml__ file we added 2 intents:
 
 ```yaml
-      - intent: buy_pizza
-        examples: |
-          - i'd like to buy pizza
-          - i want a pizza
-          - can i buy a pizza
-          - i'm interested in a savory round flattened bread of Italian origin
-          - i want to buy pizza
-      - intent: inform
-        examples: |
-          - i'd like a [large](pizza_size) pizza
-          - i want to order a [xl](pizza_size) [hawai](pizza_type) pizza
-          - [medium](pizza_size)
-          - [xl](pizza_size)
-          - [small](pizza_size)
-          - [s](pizza_size)
-          - [pepperoni](pizza_type)
-          - give me a [mozerella](pizza_type) pizza
-          - [hawaii](pizza_type)
-          - i want a [large](pizza_size) pizza
-          - [mozzarella](pizza_type)
-          - [veggie](pizza_type)
-          - [fungi](pizza_type)
-          - [S](pizza_size)
+- intent: buy_pizza
+  examples: |
+    - i'd like to buy pizza
+    - i want a pizza
+    - can i buy a pizza
+    - i'm interested in a savory round flattened bread of Italian origin
+    - i want to buy pizza
+
+- intent: inform
+  examples: |
+    - i'd like a [large](pizza_size) pizza
+    - i want to order a [xl](pizza_size) [hawai](pizza_type) pizza
+    - [medium](pizza_size)
+    - [xl](pizza_size)
+    - [small](pizza_size)
+    - [s](pizza_size)
+    - [pepperoni](pizza_type)
+    - give me a [mozerella](pizza_type) pizza
+    - [hawaii](pizza_type)
+    - i want a [large](pizza_size) pizza
+    - [mozzarella](pizza_type)
+    - [veggie](pizza_type)
+    - [fungi](pizza_type)
+    - [S](pizza_size)
 ```
 __Step 2:__
 Adding 2 rules for activating the form and the order pizza:
