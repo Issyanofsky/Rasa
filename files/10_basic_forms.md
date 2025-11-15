@@ -133,7 +133,7 @@ Add resposes (nder responses):
   utter_ask_pizza_size:
   - text: what size would you like your pizza to be?
   utter_ask_pizza_type:
-  - text what kind of pizza you like to buy?
+  - text: what kind of pizza you like to buy?
 ```
 Add under actions:
 ```yaml
