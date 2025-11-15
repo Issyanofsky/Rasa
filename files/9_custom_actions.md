@@ -245,7 +245,7 @@ class ActionRememberWhere(Action):
         # utc.arrow.utcnow()
         if current_place:
             current_place = current_place.lower()
-        print("DEBUG current_place =", repr(current_place))
+
         # if current_place is empty it return a utc time - a fallback
         if not current_place:
             msg = f"I didn't get where you live. Are you sure it's spelled correctly?"
@@ -279,7 +279,7 @@ class ActionTimeDifference(Action):
         timezone_in = tracker.get_slot("location")
         if timezone_to:
             timezone_to = timezone_to.lower()
-        print("DEBUG current_place =", repr(timezone_to))
+
         if not timezone_in:
             msg = "To calculuate the time difference I need to know where you live."
             dispatcher.utter_message(text=msg)
