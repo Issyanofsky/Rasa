@@ -190,7 +190,7 @@ class ValidationSimplePizzaForm(FormValidationAction):
         if slot_value.lower() not in ALLOWED_PIZZA_TYPES:
             dispatcher.utter_message(text=f"I don't recognize that pizza. we serve: {','.join(ALLOWED_PIZZA_TYPES)}.")
             return {"pizza_type": None}
-        dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza."
+        dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza.")
         return {"pizza_type": slot_value}
 ```
 
