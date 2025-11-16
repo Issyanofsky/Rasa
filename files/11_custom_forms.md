@@ -158,7 +158,7 @@ declaring slots (under domain.yml)
 ```
 Custom action to create buttons.
 
-in the actions.py
+in the __actions.py__:
 ```python
 
     class AskForVegetarianAction(Action):
@@ -170,7 +170,7 @@ in the actions.py
                 buttons=[{"title": "yes", "payload": "/affirm"}, {"title": "no", "payload": "/deny"}])
             return []
 ```
-This custom action will called by a form by the naming convection - **action_ask_[slotname]**
+This custom action will be "called" by the form if it follows the naming convection - **action_ask_[slotname]**
 
 The idea is, that after the button been clicked. befor the validate kick-in. and if the correct intens are detected we will be able to set the slots apropebly.
 
