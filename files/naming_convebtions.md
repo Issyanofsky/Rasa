@@ -26,7 +26,7 @@ Validates slot values after they are extracted.
 The class __must start with__ "Validate" and end with "FormValidationAction".
 
 Pattern
-```python
+```kotlin
 class Validate<FormName>Form(FormValidationAction):
 ```
 Example:
