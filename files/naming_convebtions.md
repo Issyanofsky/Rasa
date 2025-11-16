@@ -8,7 +8,7 @@ This section lists all naming patterns that Rasa automatically recognizes for fo
 ## 1. Slot Validation Function
 
 Rasa automatically calls:
-```yaml
+```php-template
 validate_<slot_name>()
 ```
 Example:
