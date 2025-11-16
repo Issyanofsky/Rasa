@@ -33,7 +33,37 @@ __*note__ in order for it to work you have to add intent (bot_challenge).
 
 ![Pipline & Policy](../images/custom_froms1101.gif)
 
-we want not just stopping the form but also to get the user confirm. the best way of doing it its by stories (you need more then one). rules cant apply here becouse they build for __one__ set at a time while here we need more then one (intent: stop) and he confirmation (ontent: stop and affirm)
+we want not just stopping the form but also to get the user confirm. the best way of doing it its by stories (you need more then one). rules cant apply here becouse they build for __one__ set at a time while here we need more then one (intent: stop) and he confirmation (on intent: stop and affirm)
+
+Add intent for __stop__:
+```yaml
+- intent: stop
+  examples:
+  - stop
+  - stop now
+  - please stop
+  - i want to stop
+  - end
+  - end it
+  - cancel
+  - cancel that
+  - cancel this
+  - leave it
+  - drop it
+  - quit
+  - i want to quit
+  - le't stop Here
+  - i'm dene 
+  - ok stop
+  - forget it
+  - i change my mind
+```
+Also need to add a action for disabeling the form:
+```yaml
+action_deactivate_loop
+
+```
+Those are stories (since rule wont apply in a sequence where we need two __intent's__ difinding the behavior - the __stop__ intent and the __affirm/stop__ intent)
 
 ```yaml
     - story: User don't want tp continue form
@@ -178,6 +208,7 @@ In cases like this you need to define the slots not to aquiere entites if they o
 
 
 ![Pipline & Policy](../images/custom_froms1102.gif)
+
 
 The condition makes sure the slot only filled if it inside the form loop.
 
