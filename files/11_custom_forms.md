@@ -69,213 +69,37 @@ class ActionDeactivateLook(Action):
         return [ActiveLoop(None)]
 
 ```
-Those are stories (since rule wont apply in a sequence where we need two __intent's__ difinding the behavior - the __stop__ intent and the __affirm/stop__ intent)
+Add thoses to the __rules.yml__ file:
 
 ```yaml
-    - story: User interrupts the form and doesn't want to continue
-      steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: buy_pizza
-      - action: simple_pizza_form
-      - active_loop: simple_pizza_form
-      - intent: stop
-      - action: utter_ask_continue
-      - or:
-        - intent: stop
-        - intent: affirm
-      - action: action_deactivate_loop
-      - active_loop: null
-```
-for better learnign its recommended to add more stories:
-```yaml
-# stoties for deactivating Form
-
-- story: User interrupts the form and doesn't want to continue
+    # STOP → ASK USER → AFFIRM (stop form)
+- rule: User wants to stop the pizza form
+  condition:
+    - active_loop: simple_pizza_form
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - intent: stop
-  - action: utter_ask_continue
-  - or:
     - intent: stop
+    - action: utter_ask_continue
+
+- rule: User confirms stop (affirm)
+  condition:
+    - active_loop: simple_pizza_form
+  steps:
     - intent: affirm
-  - action: action_deactivate_loop
-  - active_loop: null
-
-- story: User interrupts the form and WANT to continue
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - intent: stop
-  - action: utter_ask_continue
-  # User denies stop (wants to continue)
-  - intent: deny
-  - action: utter_continue_form
-  - active_loop: simple_pizza_form
-
-- story: interactive story 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - slot_was_set:
-    - requested_slot: pizza_size
-  - intent: stop
-  - action: utter_ask_continue
-  - intent: stop
-  - action: action_deactivate_loop
-  - active_loop: null
-  - slot_was_set:
-    -requested_slot: null
-  - intnet: goodbye
-  - action: utter_goodbye
-
-- story: interactive story 3
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - slot_was_set: 
-    - requested_slot: pizza_size
-  - slot_was_set:
-    - pizza_size: S
-  - slot_was_set:
-    - requested_slot: pizza_type
-  - intent: stop
-  - action: utter_ask_continue
-  - intent: affirm
-  - action: action_deactivate_loop
-  - active_loop: null
-  - slot_was_set: 
-    - requested_slot: null
-  - intent: goodbye
-  - action: utter_goodbye
-  
-- story: interactive story 4
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - slot_was_set:
-    - requested_slot: pizza_size
-  - intent: stop
-  - action: utter_ask_continue
-  - intent: affirm
-  - action: action_deactivate_loop
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null 
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - slot_was_set:
-    - requested_slot: pizza_size
-    - slot_was_set:
-      - pizza_size: large
-    - slot_was_set:
-      - requested_slot: pizza_type
-    - slot_was_set:
-      - pizza_type: pepperoni
-    - slot_was_set:
-      - requested_slot: null 
+    - action: action_deactivate_loop
     - active_loop: null
-    - action: utter_submit
-    - action: utter_pizza_slot    
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_reset_pizza_slots
+    - action: utter_form_stopped   # optional
 
-- story: interactive story 5
+- rule: User declines stop (deny) → continue form
+  condition:
+    - active_loop: simple_pizza_form
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - slot_was_set:
-    - requested_slot: pizza_size
-  - intent: bot_challange
-  - action: utter_iamabot
-  - action: simple_pizza_form
-  - slot_was_set:
-    - requested_slot: pizza_size
-  - intent: stop
-  - action: utter_ask_continue
-  - intent: affirm
-  - action: action_deactivate_loop
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - intent: goodbye
-  - action: utter_goodbye  
-
-- story: interactive story 6
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - slot_was_set:
-    - requested_slot: pizza_size
-  - intent: stop
-  - action: utter_ask_continue
-  - intent: affirm
-  - action: action_deactivate_loop
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null 
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - slot_was_set:
-    - requested_slot: pizza_size
-  - slot_was_set:
-    - requested_slot: pizza_type
-  - slot_was_set:
-    - requested_slot: null 
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_pizza_slot      
-
-- story: interactive story 7
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - slot_was_set:
-    - requested_slot: pizza_type
-  - intent: stop
-  - action: utter_ask_continue
-  - intent: affirm
-  - action: action_deactivate_loop
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null 
-  - intent: buy_pizza
-  - action: simple_pizza_form
-  - active_loop: simple_pizza_form
-  - slot_was_set:
-    - requested_slot: pizza_size
-  - slot_was_set:
-    - requested_slot: pizza_type
-  - slot_was_set:
-    - requested_slot: null 
-  - active_loop: null
-  - action: utter_submit
-  - action: utter_pizza_slot      
+    - intent: deny
+    - action: utter_continue_form
+    - action: simple_pizza_form
+    - active_loop: simple_pizza_form
 
 
 ```
