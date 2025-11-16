@@ -114,13 +114,11 @@ slot_was_set:
 What they mean:
 
 __1.__ active_loop: null
-
-    * Tells Rasa: “__No form is active anymore__”.
-    * Essentially, it __turns off the form__ .
+* Tells Rasa: “__No form is active anymore__”.
+* Essentially, it __turns off the form__ .
 __2.__ slot_was_set:
-
-    * Contains requested_slot: null
-    * Tells Rasa: “__We are not asking for any more slots__”
-    * It clears the requested_slot that the form was waiting for.
+* Contains requested_slot: null
+* Tells Rasa: “__We are not asking for any more slots__”
+* It clears the requested_slot that the form was waiting for.
 
 Both are mandatory; if you forget them, the form might keep running or not submit properly.
