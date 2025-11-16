@@ -119,7 +119,7 @@ making the form more dynamc using buttons.
 
 ![Pipline & Policy](../images/custom_froms1103.gif)
 
-we need create a form (we add it to the exsisting) that have a "vegetarin" slot that we need (knowing the path for the question)
+Create a new form that have a "vegetarin" slot that we need (knowing the path for the question)
 
 ```yaml
     fancy_pizza_form:
