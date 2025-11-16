@@ -85,7 +85,7 @@ Those are stories (since rule wont apply in a sequence where we need two __inten
         - intent: stop
         - intent: affirm
       - action: action_deactivate_loop
-      - action_loop: null
+      - active_loop: null
 ```
 for better learnign its recommended to add more stories:
 ```yaml
