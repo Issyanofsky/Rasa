@@ -60,7 +60,13 @@ Add intent for __stop__:
 ```
 Also need to add a action for disabeling the form:
 ```yaml
-action_deactivate_loop
+class ActionDeactivateLook(Action):
+    def name(self) -> Text:
+        return "action_deactivate_loop"
+
+    def run(self, dispatcher, tracker, domain):
+        dispatcher.utter_message(text="Okay, I stopped the form.")
+        return [ActiveLoop(None)]
 
 ```
 Those are stories (since rule wont apply in a sequence where we need two __intent's__ difinding the behavior - the __stop__ intent and the __affirm/stop__ intent)
