@@ -59,7 +59,7 @@ Add intent for __stop__:
   - i change my mind
 ```
 Also need to add a action for disabeling the form:
-```yaml
+```python
 class ActionDeactivateLook(Action):
     def name(self) -> Text:
         return "action_deactivate_loop"
