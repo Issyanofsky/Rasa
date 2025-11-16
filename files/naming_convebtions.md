@@ -5,150 +5,119 @@
 
 This section lists all naming patterns that Rasa automatically recognizes for forms, validation, slot asking, deactivation, and form submission.
 
-## 1. Slot Validation Function
+## 1. Form Validation Class Name
 
-Rasa automatically calls:
-```php-template
-validate_<slot_name>()
-```
-Example:
-```python
-def validate_pizza_size(self, value, dispatcher, tracker, domain):
-    ...
-```
-
-__What it does__
-
-Validates slot values after they are extracted.
-
-## 2. Form Validation Class
-
-The class __must start with__ "Validate" and end with "FormValidationAction".
-
-Pattern
+Rasa automatically loads validation classes ONLY if they follow this pattern:
 ```kotlin
-class Validate<FormName>Form(FormValidationAction):
+class Validation<FormName>(FormValidationAction):
+```
+Example"
+```python
+class ValidationSimplePizzaForm(FormValidationAction):
+    ...
+```
+
+🔹 Why?
+Rasa scans for classes starting with Validation to automatically attach validation to the form.
+
+## 2. Slot Validation Functions
+
+Inside the validation class, each slot must follow this naming pattern:
+```php-template
+validate_<slot_name>(...)
 ```
 Example:
 ```python
-class ValidateSimplePizzaForm(FormValidationAction):
+def validate_pizza_size(self, slot_value, dispatcher, tracker, domain):
     ...
 ```
-__What it does__
 
-Holds all validation methods for a form.
+🔹 Rasa automatically calls this when a value is mapped to the slot.
 
-✅ 3. Custom Ask-Next-Slot Action
+## 3. Automatic Slot Asking
 
-Rasa looks automatically for:
+Rasa looks for these names when asking for the next slot inside a __Form__:
 
+Default ask action (utterance):
+```php-template
 utter_ask_<slot_name>
-
-
-or a custom action:
-
+```
+Custom action ask handler:
+```php-template
 action_ask_<slot_name>
-
-Example
+```
+Example:
+```yaml
 utter_ask_pizza_type:
-  - text: "What kind of pizza would you like?"
+  - text: "What pizza type would you like?"
+```
 
-What it does
+🔹 Used every time the form requests a slot value.
 
-Controls how the bot asks for a slot.
+__* Note:__
+if utter_ask_<slot_name> __exists, Rasa will not trigger__ the action_ask_<slot_name>.
+It follow thos priority:
+    1. If utter_ask_<slot_name> __exists → use it__
+    2. Else if action_ask_<slot_name> __exists → use it__
+    3. Else → Rasa uses a fallback, like “What is pizza_type?
 
-✅ 4. Form Deactivation Action
+## 4. required_slots
 
-Rasa automatically detects ONLY this exact name:
-
-action_deactivate_loop
-
-Example (Python)
-class ActionDeactivateLoop(Action):
-    def name(self): return "action_deactivate_loop"
-
-    def run(self, dispatcher, tracker, domain):
-        return [ActiveLoop(None)]
-
-What it does
-
-Stops the form immediately.
-
-✅ 5. Form Submission Action (Optional)
-
-If you want a custom submit step:
-
-action_submit_<form_name>
-
-Example
-action_submit_simple_pizza_form
-
-What it does
-
-Runs after all required slots are filled (if defined in a rule).
-
-✅ 6. Submit Rule Required Names
-
-Rasa expects these exact event names inside a submit rule:
-
-active_loop: null
-slot_was_set:
-  - requested_slot: null
-
-What it does
-
-Tells Rasa the form is finished.
-
-✅ 7. Slot Mapping Naming
-
-This is fixed and must be written exactly like this:
-
-slot_mappings:
-  <slot_name>:
-    - type: from_entity
-      entity: <entity_name>
-
-Example
-slot_mappings:
-  pizza_size:
-    - type: from_entity
-      entity: pizza_size
-
-✅ 8. Required Slots List
-
-Inside forms:
-
+Inside the forms section of your domain.yml, you list the slots your form must fill:
+```yaml
 forms:
   simple_pizza_form:
     required_slots:
       - pizza_size
       - pizza_type
+```
+What this means:
 
-What it does
+* The form needs two pieces of information from the user:
+    1. pizza_size
+    2. pizza_type
 
-Defines which questions the form must ask.
+* Until both are filled, the form keeps asking questions.
 
-✅ 9. Event Names Used in Python
+__*Note:__ The order you list them in controls the order of the questions.
 
-These must NOT be renamed:
+## 5. Form Deactivation (stop the form early)
 
-Event	Purpose
-ActiveLoop()	Start/stop a form
-SlotSet()	Set any slot
-FollowupAction()	Force next action
-Form()	Internal form state
-Example
-return [SlotSet("pizza_size", "large")]
+This action name is fixed and must be exactly, Rasa specifically looks for this exact name when stopping a form.:
+```nginx
+action_deactivate_loop
+```
+This action __Stop the form. It should no longer ask for slots__ (There is no active form anymore. Turn the form off).
 
-✅ 10. Stories & Rules Conditions
+Example:
+```python
+from rasa_sdk import Action
+from rasa_sdk.events import ActiveLoop
 
-Use these EXACT keyword names:
+class ActionDeactivateLoop(Action):
+    def name(self):
+        return "action_deactivate_loop"
 
-active_loop: <form_name>
+    def run(self, dispatcher, tracker, domain):
+        # This stops the form
+        return [ActiveLoop(None)]
+```
+
+## 6. Submit Rule Required Names 
+
+When the Form is finishes to submit the form, Rasa expects these __exact keys__ when a form finishes:
+```yaml
+active_loop: null
 slot_was_set:
-  - requested_slot: <slot_name>
+  - requested_slot: null
+```
+What they mean:
 
-Example
-- rule: Submit Pizza Form
-  condition:
-    - active_loop: simple_pizza_form
+__1.__ active_loop: null
+    * Tells Rasa: “__No form is active anymore__”.
+    * Essentially, it __turns off the form__ .
+__2.__ slot_was_set:
+    * Contains requested_slot: null
+    * Tells Rasa: “__We are not asking for any more slots__”
+    * It clears the requested_slot that the form was waiting for.
+Both are mandatory; if you forget them, the form might keep running or not submit properly.
