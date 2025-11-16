@@ -72,7 +72,7 @@ class ActionDeactivateLook(Action):
 Those are stories (since rule wont apply in a sequence where we need two __intent's__ difinding the behavior - the __stop__ intent and the __affirm/stop__ intent)
 
 ```yaml
-    - story: User don't want tp continue form
+    - story: User don't want to continue form
       steps:
       - intent: greet
       - action: utter_greet
