@@ -1,0 +1,133 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - inquire_time
+  - where_i_live
+  - inquire_time_difference
+  - inform
+  - buy_pizza
+  - stop
+  - buy_fancy_pizza
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+    buttons:
+    - title: "Yes"
+      payload: "/affirm"
+    - title: "No"
+      payload: "/deny"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_submit:
+  - text: I will now order a pizza for you!
+  utter_pizza_slot:
+  - text: i will order a {pizza_size} {pizza_type} pizza.
+  utter_ask_continue:
+  - text: Are you sure you want to stop the form?
+  utter_ask_pizza_size:
+  - text: what size would you like your pizza to be?
+  utter_ask_pizza_type:
+  - text: what kind/type of pizza you like to buy?
+
+  # continue/break form
+  utter_continue_form:
+  - text: "Let's continue with the order"
+  utter_form_stopped:
+  - text: "we canceled the pizza order"
+
+forms:
+  simple_pizza_form:
+    required_slots:
+      - pizza_size
+      - pizza_type
+
+  fancy_pizza_form:
+    required_slots:
+      - vegetarian
+      - pizza_size
+      - pizza_type
+
+actions:
+  - action_tell_time
+  - action_time_difference
+  - action_remember_where
+  - validate_simple_pizza_form
+  - action_reset_pizza_slots
+  - action_deactivate_loop
+  - action_ask_vegetarian
+  - validate_fancy_pizza_form
+  - action_ask_pizza_type
+
+
+entities:
+  - place
+  - pizza_size
+  - pizza_type
+
+slots:
+  place:
+    type: text
+    influence_conversation: False
+    mappings:
+    - type: from_entity
+      entity: place
+      intent: inquire_time
+    - type: from_entity
+      entity: place
+      intent: inquire_time_difference      
+  location:
+    type: text  
+    influence_conversation: False
+    mappings:
+    - type: from_entity
+      entity: place
+      intent: where_i_live
+  pizza_size:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: pizza_size
+  pizza_type:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: pizza_type    
+  vegetarian:
+    type: bool
+    influence_conversation: true
+    mappings:
+      - type: from_intent
+        value: true
+        intent: affirm
+      - type: from_intent
+        value: false
+        intent: deny
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
