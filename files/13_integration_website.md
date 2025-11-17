@@ -70,6 +70,19 @@ If you want to use any of those platforms you need to configure the credentials.
 The REST channel in Rasa allows your bot to communicate with any client by sending and receiving messages through simple HTTP requests.
 This channel is connecting using a __REST API__.
 
+This option turns on the Rasa HTTP API, so other programs can talk to your bot.
+It allows to send messages from:
+* websites
+* mobile apps
+* Postman
+* JavaScript
+* Python
+* any tool that sends HTTP requests
+
+Without __--enable-api__, you cannot call endpoints like:
+* /webhooks/rest/webhook (send/receive messages)
+* /model/parse (NLU parsing)
+* /conversations/... (view history)
 
 ![Integration with a Website](../images/integration_website1309.gif)
 
