@@ -228,4 +228,4 @@ http://localhost:8000/
 
 Those __HTML__ files are chatroom's.
 1. [Regular](../Rasa_files/chatroom.html)
-2. [voice chatroom](../Rasa_files/voivechatroom.html)
+2. [voice chatroom](../Rasa_files/voicechatroom.html)
