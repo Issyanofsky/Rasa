@@ -152,4 +152,61 @@ A reply example:
   }
 }
 ```
- 
+
+__Example 3:__ 
+Using a widget that already exsist to comunicate with Rasa. this widget is a chatwidget (__Catroom.js__)
+to enable the communication we have to set our backend (Agent) to allows ANY website to call your Rasa server (not in production)
+
+To do that we use the __--cors="*" flag__ (Cross-Origin Resource Sharing) that allow all conections.
+```terminal
+rasa run --enable-api --cors="*"
+```
+
+__*Note:__ here is an example for __safer production version__ of the command:
+```terminal
+rasa run \
+  --enable-api \
+  --cors="https://my-website.com" \
+  --ssl-certificate /etc/ssl/cert.pem \
+  --ssl-keyfile /etc/ssl/key.pem
+```
+Create an __HTML__ file (opens the chatroom):
+```html
+<head>
+  <!-- Correct stylesheet link -->
+  <link
+    rel="stylesheet"
+    href="https://npm-scalableminds.s3.eu-central-1.amazonaws.com/@scalableminds/chatroom@master/dist/Chatroom.css"
+  />
+</head>
+
+<body>
+  <div class="chat-container"></div>
+
+  <!-- Correct JavaScript link -->
+  <script
+    src="https://npm-scalableminds.s3.eu-central-1.amazonaws.com/@scalableminds/chatroom@master/dist/Chatroom.js">
+  </script>
+
+  <script type="text/javascript">
+    var chatroom = new window.Chatroom({
+      host: "http://localhost:5005",
+      title: "Chat",
+      container: document.querySelector(".chat-container"),
+      welcomeMessage: "Hi, I am an assistant. How may I help you?",
+    });
+
+    chatroom.openChat();
+  </script>
+</body>
+```
+
+Enable the API:
+```terminal
+rasa run --enable-api --cors "*"
+```
+
+Sart a small __WebServer__ that able to host the __HTML__ file (in the terminal):
+```terminal
+python -m http.server
+```
