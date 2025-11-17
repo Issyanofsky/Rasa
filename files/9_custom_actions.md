@@ -178,7 +178,7 @@ There a need to run both the rasa NLU and the custom action api on two separate 
 
 starting the custom action api (done on 1 terminal)
 ```terminal
-    rasa run action
+    rasa run actions
 ```
 starting the custom action api (done on 2 terminal)
 ```terminal
