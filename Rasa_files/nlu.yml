@@ -1,0 +1,271 @@
+version: "3.1"
+
+nlu:
+- synonym: apartment
+  examples: |
+    - flat
+    - condo
+    - studio
+    - loft
+    - unit
+
+- synonym: house
+  examples: |
+    - home
+    - villa
+    - bungalow
+    - cottage
+    - residence
+
+- synonym: land
+  examples: |
+    - plot
+    - lot
+    - acreage
+    - property
+    - terrain
+
+- synonym: store
+  examples: |
+    - shop
+    - retail space
+    - boutique
+    - outlet
+    - kiosk
+
+- synonym: warehouse
+  examples: |
+    - storage facility
+    - depot
+    - distribution center
+    - storeroom
+    - stockhouse
+
+- synonym: hotel
+  examples: |
+    - inn
+    - lodge
+    - resort
+    - motel
+    - guesthouse
+
+- lookup: place
+  examples: |
+    - brussels
+    - zagrev
+    - london
+    - lisbon
+    - amsterdam
+    - seattle
+    - tel-aviv
+    - berlin
+    - madrid
+    - new-york
+    - oslo
+    - tokyo
+
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - sure
+    - absolutely yes
+    - definitely
+    - yeah that works
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - absolutely not
+    - not at all
+    - nope
+
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - who are you?
+    - are you a machine?
+
+- intent: inquire_time
+  examples: |
+    - what time is it?
+    - what time is it in [Amsterdam](place)?
+    - what time is it in [London](place)?
+    - tell me the time in [Lisbon](place)
+    - what is the current time in [berlin](place)
+    - what is the time in [amsterdam](place)
+    - what time is it in [london](place)?
+    - what time is it in [tel-aviv](place)?  
+    - tell me the time in [Tel-Aviv](place)  
+    - what is the current time in [tel aviv](place)  
+    - what time is it in [paris](place)?
+    - what time is it in [Paris](place)?
+    - tell me the time in [rome](place)
+    - what is the current time in [Rome](place)
+    - what is the time in [zagreb](place)
+    - what time is it in [Zagreb](place)?
+    - what time is it in [seattle](place)?  
+    - tell me the time in [Tel Aviv](place)  
+    - what is the current time in [Seattle](place) 
+    - give me the time in [london](place)
+    - tell me the current time in [Tokyo](place)
+
+- intent: where_i_live
+  examples: |
+    - please remember that i live in [Amsterdam](place)?
+    - my house is in [London](place)
+    - reminder. i live in [Lisbon](place)
+    - my residence is in [Berlin}(place)
+    - remeber that i live in [london](place)
+    - i live in [tel-aviv](place)
+    - im now in [zagreb](place)
+    
+- intent: inquire_time_difference
+  examples: |
+    - time difference between [Amsterdam(place)?
+    - what is my time difference with [London](place)?
+    - how bigis the time delta with [Berlin](place)?
+    - is there a time difference with [Lisbon](place)?
+    - what is the time difference with[amsterdam](place)
+    - and to [London](place)
+    - to [paris](place)
+
+- intent: buy_pizza
+  examples: |
+    - i'd like to buy pizza
+    - i want a pizza
+    - can i buy a pizza
+    - i'm interested in a savory round flattened bread of Italian origin
+    - i want to buy pizza
+    - i'd like a [large](pizza_size) [pepperoni](pizza_type) pizza
+    - i want to order a [xl](pizza_size) [hawaii](pizza_type) pizza
+    - give me a [medium](pizza_size) [mozzarella](pizza_type) pizza
+    - i want a [small](pizza_size) [veggie](pizza_type) pizza
+
+- intent: inform
+  examples: |
+    - i'd like a [large](pizza_size) pizza
+    - i want to order a [xl](pizza_size) [hawai](pizza_type) pizza
+    - [medium](pizza_size)
+    - [xl](pizza_size) pizza
+    - [small](pizza_size) pizza
+    - [s](pizza_size)
+    - [pepperoni](pizza_type)
+    - give me a [mozerella](pizza_type) pizza
+    - [hawaii](pizza_type)
+    - i want a [large](pizza_size) pizza
+    - [mozzarella](pizza_type)
+    - [veggie](pizza_type)
+    - [fungi](pizza_type) pizza
+    - [S](pizza_size)
+    - [four cheese](pizza_type)
+
+- intent: stop
+  examples: |
+    - stop
+    - stop now
+    - please stop
+    - i want to stop
+    - end
+    - end it
+    - cancel
+    - cancel that
+    - cancel this
+    - leave it
+    - drop it
+    - quit
+    - i want to quit
+    - le't stop Here
+    - i'm dene 
+    - ok stop
+    - forget it
+    - i change my mind
+
+- intent: buy_fancy_pizza
+  examples: |
+    - I want a fancy pizza
+    - Give me a fancy pizza
+    - I'd like to order a fancy pizza
+    - I want a gourmet pizza
+    - Can I get a special pizza
+    - I want a premium pizza
+    - I'd like a deluxe pizza
+    - I want an XL fancy pizza
+    - I'd like a medium gourmet pizza

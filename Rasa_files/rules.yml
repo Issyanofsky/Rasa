@@ -1,0 +1,103 @@
+version: "3.1"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: Tell the time
+  steps:
+  - intent: inquire_time
+  - action: action_tell_time
+
+- rule: Where I live intent
+  steps:
+  - intent: where_i_live
+  - action: action_remember_where
+
+- rule: Time Difference Intent
+  steps:
+  - intent: inquire_time_difference
+  - action: action_time_difference
+
+- rule: Activate Pizza Form
+  steps:
+  - intent: buy_pizza
+  - action: simple_pizza_form
+  - active_loop: simple_pizza_form
+
+- rule: Submit Pizza Form
+  condition:
+  - active_loop: simple_pizza_form
+  steps:
+  - action: simple_pizza_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_submit
+  - action: utter_pizza_slot
+  - action: action_reset_pizza_slots
+
+# interuppted Form Fill
+- rule: Interrupting simple_pizza_form
+  condition:
+  - active_loop: simple_pizza_form
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+  - action: simple_pizza_form
+  - active_loop: simple_pizza_form
+
+# STOP → ASK USER → AFFIRM (stop form)
+- rule: User wants to stop the pizza form
+  condition:
+    - active_loop: simple_pizza_form
+  steps:
+    - intent: stop
+    - action: utter_ask_continue
+
+- rule: User confirms stop (affirm)
+  condition:
+    - active_loop: simple_pizza_form
+  steps:
+    - intent: affirm
+    - action: action_deactivate_loop
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_reset_pizza_slots
+    - action: utter_form_stopped   # optional
+
+- rule: User declines stop (deny) → continue form
+  condition:
+    - active_loop: simple_pizza_form
+  steps:
+    - intent: deny
+    - action: utter_continue_form
+    - action: simple_pizza_form
+    - active_loop: simple_pizza_form
+
+## Fancy Pizza form
+- rule: Activate Fancy Pizza Form
+  steps:
+    - intent: buy_fancy_pizza
+    - action: fancy_pizza_form
+    - active_loop: fancy_pizza_form
+
+- rule: Submit Fancy Pizza Form
+  condition:
+    - active_loop: fancy_pizza_form
+  steps:
+    - action: fancy_pizza_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: utter_submit
+    - action: utter_pizza_slot
