@@ -172,41 +172,54 @@ rasa run \
 ```
 Create an __HTML__ file (opens the chatroom):
 ```html
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <!-- Correct stylesheet link -->
-  <link
-    rel="stylesheet"
-    href="https://npm-scalableminds.s3.eu-central-1.amazonaws.com/@scalableminds/chatroom@master/dist/Chatroom.css"
-  />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasa Chat</title>
+    <link rel="stylesheet" href="Chatroom.css">
 </head>
-
 <body>
-  <div class="chat-container"></div>
+    <div class="chat-container"></div>
 
-  <!-- Correct JavaScript link -->
-  <script
-    src="https://npm-scalableminds.s3.eu-central-1.amazonaws.com/@scalableminds/chatroom@master/dist/Chatroom.js">
-  </script>
+    <script src="Chatroom.js"></script>
+    <script type="text/javascript">
+        // Generate a fixed conversation ID for this session
+        const conversationId = "user_session_1"; // you can generate a random one per user
 
-  <script type="text/javascript">
-    var chatroom = new window.Chatroom({
-      host: "http://localhost:5005",
-      title: "Chat",
-      container: document.querySelector(".chat-container"),
-      welcomeMessage: "Hi, I am an assistant. How may I help you?",
-    });
+        var chatroom = new window.Chatroom({
+            host: "http://localhost:5005",       // Rasa server endpoint
+            title: "Chat",
+            container: document.querySelector(".chat-container"),
+            welcomeMessage: "Hi, I am your assistant. How may I help you?",
+            conversationId: conversationId,      // ensure messages belong to same conversation
+        });
 
-    chatroom.openChat();
-  </script>
+        chatroom.openChat();
+    </script>
 </body>
+</html>
+```
+Download the files (chatroom) __Chatroom.js__ and __Chatroom.css__ (to the same folder as the HTML file).
+on __Powershell__
+```terminal
+Invoke-WebRequest -Uri "https://cdn.jsdelivr.net/npm/@scalableminds/chatroom@0.12.0/dist/Chatroom.js" -OutFile "Chatroom.js"
+Invoke-WebRequest -Uri "https://cdn.jsdelivr.net/npm/@scalableminds/chatroom@0.12.0/dist/Chatroom.css" -OutFile "Chatroom.css"
 ```
 
-Enable the API:
+
+__Enable the API__:
 ```terminal
 rasa run --enable-api --cors "*"
 ```
 
-Sart a small __WebServer__ that able to host the __HTML__ file (in the terminal):
+Sart a small __WebServer__ that able to host the __HTML__ file (in the terminal on the same folder the HTML file is):
 ```terminal
 python -m http.server
+```
+
+__Open__ a browser:
+```
+http://localhost:8000/
 ```
