@@ -3,7 +3,7 @@
 # **Rasa 3 Naming Conventions (Quick Reference)**
 </div>
 
-This section lists all naming patterns that Rasa automatically recognizes for forms, validation, slot asking, deactivation, and form submission.
+This section lists usfull naming patterns that Rasa automatically recognizes.
 
 ## 1. Form Validation Class Name
 
