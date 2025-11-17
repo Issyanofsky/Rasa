@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rasa Chat</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+  #chat-box { border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: auto; background: white; border-radius: 5px; }
+  .message { margin: 5px 0; padding: 8px 12px; border-radius: 10px; max-width: 80%; word-wrap: break-word; }
+  .user { background-color: #dcf8c6; text-align: right; margin-left: auto; }
+  .bot { background-color: #f1f0f0; text-align: left; margin-right: auto; }
+  .buttons { margin-top: 5px; }
+  .btn { padding: 5px 10px; margin: 2px; cursor: pointer; border: none; border-radius: 3px; background-color: #0084ff; color: white; }
+  .btn:hover { background-color: #005bb5; }
+  input { padding: 8px; width: 70%; }
+  button#send-btn { padding: 8px 12px; }
+  img { max-width: 80%; display: block; margin: 5px 0; border-radius: 5px; }
+</style>
+</head>
+<body>
+
+<div id="chat-box"></div>
+<input type="text" id="user-input" placeholder="Type a message..." />
+<button id="send-btn">Send</button>
+
+<script>
+const chatBox = document.getElementById("chat-box");
+const input = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
+
+// Multi-user conversation ID
+const conversationId = "user_" + Math.random().toString(36).substring(2,10);
+
+function scrollToBottom() {
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function displayMessage(content, sender) {
+    const div = document.createElement("div");
+    div.className = "message " + sender;
+    div.innerHTML = content;
+    chatBox.appendChild(div);
+    scrollToBottom();
+}
+
+function displayButtons(buttons) {
+    const container = document.createElement("div");
+    container.className = "buttons";
+    buttons.forEach(btn => {
+        const b = document.createElement("button");
+        b.className = "btn";
+        b.textContent = btn.title || btn;
+        b.onclick = () => {
+            sendMessage(b.textContent);
+            container.remove(); // remove buttons after click
+        };
+        container.appendChild(b);
+    });
+    chatBox.appendChild(container);
+    scrollToBottom();
+}
+
+async function sendMessage(message=null) {
+    if(message === null) {
+        message = input.value.trim();
+        if(!message) return;
+    }
+
+    displayMessage(message, "user");
+    input.value = "";
+    input.disabled = true;
+    sendBtn.disabled = true;
+
+    try {
+        const res = await fetch("http://localhost:5005/webhooks/rest/webhook", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sender: conversationId, message })
+        });
+        const data = await res.json();
+
+        data.forEach(msg => {
+            // Text with links
+            if(msg.text) {
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                const textWithLinks = msg.text.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
+                displayMessage(textWithLinks, "bot");
+            }
+            // Images
+            if(msg.image) displayMessage(`<img src="${msg.image}" />`, "bot");
+            // Buttons / quick replies
+            if(msg.buttons) displayButtons(msg.buttons);
+        });
+
+    } catch(err) {
+        displayMessage("Error connecting to Rasa", "bot");
+    }
+
+    input.disabled = false;
+    sendBtn.disabled = false;
+    input.focus();
+}
+
+// Event listeners
+sendBtn.onclick = () => sendMessage();
+input.addEventListener("keydown", e => {
+    if(e.key === "Enter") sendMessage();
+});
+
+// Welcome message
+displayMessage("Hi, I am your assistant! 😊 How may I help you?", "bot");
+</script>
+
+</body>
+</html>
