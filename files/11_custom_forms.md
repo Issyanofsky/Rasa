@@ -122,17 +122,17 @@ making the form more dynamc using buttons.
 Create a new form that have a "vegetarin" slot that we need (knowing the path for the question)
 
 ```yaml
-    fancy_pizza_form:
-        required_slots:
-        - vegetarian
-        - pizza_size
-        - pizza_type
+fancy_pizza_form:
+  required_slots:
+    - vegetarian
+    - pizza_size
+    - pizza_type
 ```
 
 declaring slots (under domain.yml)
 
 ```yaml
-    slots:
+slots:
         pizza_size:
             type: text
             influence_conversation: true
@@ -175,39 +175,52 @@ This custom action will be "called" by the form if it follows the naming convect
 The idea is, that after the button been clicked. befor the validate kick-in. and if the correct intens are detected we will be able to set the slots apropebly.
 
 ```python
-    class ValidateFancyPizzaForm(FormValidationAction):
-        def name(self) -> Text:
-            return "validate_fancy_pizza_form"
+class ValidateFancyPizzaForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_fancy_pizza_form"
 
-        def validation_vegetarian(self, alot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> Dict[Text, Any]:
+    def validation_vegetarian(self, alot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> Dict[Text, Any]:
         """ Validate 'pizza_size' value."""
         if tracker.get_intent_of_latest_message() == "affirm":
-            dispatcher.utter_message(text="I'll remember you prefer vegetarian."
+            dispatcher.utter_message(text="I'll remember you prefer vegetarian.")
             return {"vegetarian": True}
-         if tracker.get_intent_of_latest_message() == "deny":
-            dispatcher.utter_message(text="I'll remember you DON'T want a vegetarian pizza."
+        if tracker.get_intent_of_latest_message() == "deny":
+            dispatcher.utter_message(text="I'll remember you DON'T want a vegetarian pizza.")
             return {"vegetarian": False}
-         dispatcher.utter_message(text="I didn't get that."
-         return {"vegetarian": None}
+        dispatcher.utter_message(text="I didn't get that.")
+        return {"vegetarian": None}
 
-        def validate_pizza_size(self, slot_value: Any, dispatcher: CollectingDispatcher,.............
+    def validate_pizza_size(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> Dict[Text, Any]:
+        """Validate 'pizza_size' value"""
+
+        if slot_value.lower() not in ALLOWED_PIZZA_SIZES:
+            dispatcher.utter_message(text=f"We only accept pizza sizes: s/m/l/xl.")
+            return {"pizza_size": None}
+        dispatcher.utter_message(text=f"OK! You want to have a {slot_value} pizza.")
+        # Multi-slot capture for pizza_type in the same message
+        pizza_type = next(tracker.get_latest_entity_values("pizza_type"), None)
+        result = {"pizza_size": slot_value}
+        if pizza_type and pizza_type.lower() in ALLOWED_PIZZA_TYPES:
+            result["pizza_type"] = pizza_type
+            dispatcher.utter_message(text=f"Got it! You also want {pizza_type}.")
+        return result
 ```
 
 ```python
-    class AskFroPizzaTypeAction(Action):
-        def name(self) -> Text:
-            return "action_ask_pizza_type"
+class AskFroPizzaTypeAction(Action):
+    def name(self) -> Text:
+        return "action_ask_pizza_type"
 
-        def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> Dict[EventType]:
-            if tracker.get_slot("vegetarian"):
-                dispatcher.utter_message(text=" what kind of pizza do you want?",
-                    buttons=[{"title": p, "payload": p} for p in VEGETARIAN_PIZZAS])
-            elif tracker.get_slot("vegetarian") == False:
-                dispatcher.utter_message(text=" what kind of pizza do you want?",
-                    buttons=[{"title": p, "payload": p} for p in MEAT_PIZZAS])
-            else:
-                dispatcher.utter_message(text=" what kind of pizza do you want to buy?")
-            return []
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> Dict[Text, Any]:
+        if tracker.get_slot("vegetarian"):
+            dispatcher.utter_message(text=" what kind of pizza do you want?",
+                buttons=[{"title": p, "payload": p} for p in VEGETARIAN_PIZZAS])
+        elif tracker.get_slot("vegetarian") == False:
+            dispatcher.utter_message(text=" what kind of pizza do you want?",
+                buttons=[{"title": p, "payload": p} for p in MEAT_PIZZAS])
+        else:
+            dispatcher.utter_message(text=" what kind of pizza do you want to buy?")
+        return []
 ```
 
 Under Rules.yml:
@@ -230,15 +243,30 @@ Under Rules.yml:
       - action: utter_submit
       - action: utter_pizza_slot
 ```
-
+Add an intent to __nlu.yaml__ (also declair it in the __domain.yaml__):
+```yaml
+- intent: buy_fancy_pizza
+  examples: |
+    - I want a fancy pizza
+    - Give me a fancy pizza
+    - I'd like to order a fancy pizza
+    - I want a gourmet pizza
+    - Can I get a special pizza
+    - I want a premium pizza
+    - I'd like a deluxe pizza
+    - I want an XL fancy pizza
+    - I'd like a medium gourmet pizza
+  ```
 On he action.py
 ```python
-    from typing import Text, List, Any, Dict
+from typing import Any, Text, Dict, List
 
-    from rasa_sdk import Tracker, FormValidationAction, Action
-    from rasa_sdk.events import EventType
-    from rasa_sdk.execute import CollectingDispatcher
-    from rasa_sdk.types import DomainDict
+import arrow
+# import datapreser
+from rasa_sdk import Action, Tracker, FormValidationAction
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet, ActiveLoop
+from rasa_sdk.types import DomainDict
 ```
 
 ```python
