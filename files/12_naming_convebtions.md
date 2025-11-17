@@ -57,9 +57,9 @@ utter_ask_pizza_type:
 __* Note:__
 if utter_ask_<slot_name> __exists, Rasa will not trigger__ the action_ask_<slot_name>.
 It follow thos priority:
-    1. If utter_ask_<slot_name> __exists → use it__
-    2. Else if action_ask_<slot_name> __exists → use it__
-    3. Else → Rasa uses a fallback, like “What is pizza_type?
+1. If utter_ask_<slot_name> __exists → use it__
+2. Else if action_ask_<slot_name> __exists → use it__
+3. Else → Rasa uses a fallback, like “What is pizza_type?
 
 ## 4. required_slots
 
