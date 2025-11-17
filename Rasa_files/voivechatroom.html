@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rasa Chat with Voice Selection</title>
+<style>
+  body { font-family: Arial; margin: 20px; }
+  #chat-box { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 5px; }
+  .message { margin: 5px 0; padding: 5px; border-radius: 5px; max-width: 80%; }
+  .user { background-color: #dcf8c6; text-align: right; margin-left: auto; }
+  .bot { background-color: #f1f0f0; text-align: left; margin-right: auto; }
+  .buttons { margin-top: 5px; }
+  .btn { padding: 5px 10px; margin: 2px; cursor: pointer; border: none; border-radius: 3px; background-color: #0084ff; color: white; }
+  .btn:hover { background-color: #005bb5; }
+  #controls { margin-bottom: 5px; }
+  #voice-select { margin-left: 5px; }
+</style>
+</head>
+<body>
+
+<div id="chat-box"></div>
+<div id="controls">
+  <input type="text" id="user-input" placeholder="Type a message..." />
+  <button id="send-btn">Send</button>
+  <button id="mic-btn">🎤</button>
+  <select id="voice-select"></select>
+</div>
+
+<script>
+const chatBox = document.getElementById("chat-box");
+const input = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
+const micBtn = document.getElementById("mic-btn");
+const voiceSelect = document.getElementById("voice-select");
+
+// Unique conversation ID
+const conversationId = "user_" + Math.random().toString(36).substring(2,10);
+
+// Display messages
+function displayMessage(text, sender) {
+    const p = document.createElement("div");
+    p.className = "message " + sender;
+    p.innerHTML = text;
+    chatBox.appendChild(p);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Display buttons
+function displayButtons(buttons) {
+    const container = document.createElement("div");
+    container.className = "buttons";
+    buttons.forEach(btnText => {
+        const btn = document.createElement("button");
+        btn.className = "btn";
+        btn.textContent = btnText;
+        btn.onclick = () => {
+            sendMessage(btnText);
+            container.remove();
+        };
+        container.appendChild(btn);
+    });
+    chatBox.appendChild(container);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Send message to Rasa
+async function sendMessage(message=null) {
+    if(message === null){
+        message = input.value.trim();
+        if(!message) return;
+    }
+
+    displayMessage(message, "user");
+    input.value = "";
+    input.disabled = true;
+    sendBtn.disabled = true;
+    micBtn.disabled = true;
+
+    try {
+        const res = await fetch("http://localhost:5005/webhooks/rest/webhook", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sender: conversationId, message })
+        });
+
+        const data = await res.json();
+
+        data.forEach(msg => {
+            if(msg.text) {
+                displayMessage(msg.text, "bot");
+                speak(msg.text);
+            }
+            if(msg.buttons) {
+                const buttonTexts = msg.buttons.map(b => b.title);
+                displayButtons(buttonTexts);
+            }
+        });
+    } catch(err) {
+        displayMessage("Error connecting to Rasa", "bot");
+    }
+
+    input.disabled = false;
+    sendBtn.disabled = false;
+    micBtn.disabled = false;
+    input.focus();
+}
+
+// Voice speech
+function populateVoices() {
+    const synth = window.speechSynthesis;
+    const voices = synth.getVoices();
+    voiceSelect.innerHTML = "";
+    voices.forEach((voice, i) => {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = `${voice.name} (${voice.lang})`;
+        voiceSelect.appendChild(option);
+    });
+}
+populateVoices();
+if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = populateVoices;
+}
+
+function speak(text) {
+    const synth = window.speechSynthesis;
+    const utter = new SpeechSynthesisUtterance(text);
+    const voices = synth.getVoices();
+    const selectedVoice = voices[voiceSelect.value] || voices[0];
+    utter.voice = selectedVoice;
+    synth.speak(utter);
+}
+
+// Voice input
+function startListening() {
+    if(!('webkitSpeechRecognition' in window)) {
+        alert("Speech recognition not supported. Use Chrome or Edge.");
+        return;
+    }
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+        micBtn.textContent = "🎙️ Listening...";
+        micBtn.disabled = true;
+    };
+
+    recognition.onresult = (event) => {
+        const speech = event.results[0][0].transcript;
+        sendMessage(speech);
+    };
+
+    recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+        displayMessage("Could not hear you. Please type instead.", "bot");
+        micBtn.textContent = "🎤";
+        micBtn.disabled = false;
+        input.focus();
+    };
+
+    recognition.onend = () => {
+        micBtn.textContent = "🎤";
+        micBtn.disabled = false;
+    };
+
+    recognition.start();
+}
+
+// Events
+sendBtn.onclick = () => sendMessage();
+input.addEventListener("keydown", e => { if(e.key==="Enter") sendMessage(); });
+micBtn.onclick = () => startListening();
+
+// Welcome message
+displayMessage("Hi, I am your assistant. You can type or speak to me. 😊", "bot");
+speak("Hi, I am your assistant. You can type or speak to me.");
+</script>
+</body>
+</html>
