@@ -87,8 +87,56 @@ http://lochalhost:5005/version
 
 __Example 2:__
 Assuming that rasa listen on: http://localhost:5005
+this example will send a message "hi there"
 
 First activate the Rasa __API__:
 ```terminal
 rasa run --enable-api
 ```
+Sending the message:
+```terminal
+curl -X POST http://localhost:5005/model/parse \
+  -H "Content-Type: application/json" \
+  -d "{\"text\":\"hi there\"}"
+```
+This sends the text "hi there" to Rasa so it can understand it.
+A reply example:
+```json
+{
+  "text": "hi there",
+  "intent": {
+    "name": "greet",
+    "confidence": 0.9996106028556824
+  },
+  "entities": [],
+  "text_tokens": [
+    [0, 2],
+    [3, 8]
+  ],
+  "intent_ranking": [
+    { "name": "greet",            "confidence": 0.9996106028556824 },
+    { "name": "affirm",           "confidence": 0.00009714787302073091 },
+    { "name": "mood_unhappy",     "confidence": 0.00008264237112598494 },
+    { "name": "mood_great",       "confidence": 0.00004373480987851508 },
+    { "name": "buy_pizza",        "confidence": 0.00003553136775735766 },
+    { "name": "bot_challenge",    "confidence": 0.000032198884582612664 },
+    { "name": "buy_fancy_pizza",  "confidence": 0.000019189261365681887 },
+    { "name": "inform",           "confidence": 0.000018062266462948173 },
+    { "name": "deny",             "confidence": 0.000015227644325932488 },
+    { "name": "goodbye",          "confidence": 0.000015213927326840349 }
+  ],
+  "response_selector": {
+    "all_retrieval_intents": [],
+    "default": {
+      "response": {
+        "responses": null,
+        "confidence": 0.0,
+        "intent_response_key": null,
+        "utter_action": "utter_None"
+      },
+      "ranking": []
+    }
+  }
+}
+```
+ 
