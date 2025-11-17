@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasa Chat</title>
+    <link rel="stylesheet" href="Chatroom.css">
+</head>
+<body>
+    <div class="chat-container"></div>
+
+    <script src="Chatroom.js"></script>
+    <script type="text/javascript">
+        // Generate a fixed conversation ID for this session
+        const conversationId = "user_session_1"; // you can generate a random one per user
+
+        var chatroom = new window.Chatroom({
+            host: "http://localhost:5005",       // Rasa server endpoint
+            title: "Chat",
+            container: document.querySelector(".chat-container"),
+            welcomeMessage: "Hi, I am your assistant. How may I help you?",
+            conversationId: conversationId,      // ensure messages belong to same conversation
+        });
+
+        chatroom.openChat();
+    </script>
+</body>
+</html>
