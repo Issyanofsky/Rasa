@@ -254,3 +254,6 @@ Example of a black page:
 </body>
 </html>
 ```
+__*Note__ 
+* All files should reside in the same folder.
+* There is a bot.png file for the asistent icon (it should be on the same folder as the other files)
