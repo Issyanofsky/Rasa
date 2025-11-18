@@ -231,7 +231,7 @@ Those __HTML__ files are chatroom's.
 2. [voice chatroom](../Rasa_files/voicechatroom.html)
 3. __Voice eidget__ that can be added to exsisting html page:
 
-   This is the widget file: __rasa-widget.js__ (its in [Rasa_files](../rasa_files) folder)
+   This is the widget file: __rasa-widget.js__ (its in [Rasa_files](../rasa_files/) folder)
 
    in the HTML file you want to plant the widget you need to add this line:
 
