@@ -229,3 +229,28 @@ http://localhost:8000/
 Those __HTML__ files are chatroom's.
 1. [Regular](../Rasa_files/chatroom.html)
 2. [voice chatroom](../Rasa_files/voicechatroom.html)
+3. __Voice eidget__ that can be added to exsisting html page:
+
+   This is the widget file: __rasa-widget.js__ (its in [Rasa_files](../rasa_files) folder)
+
+   in the HTML file you want to plant the widget you need to add this line:
+
+``` html
+<script src="rasa-widget.js"></script>
+```
+Example of a black page:
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello Page</title>
+</head>
+<body>
+
+<h1>Hello</h1>
+
+<script src="rasa-widget.js"></script>
+
+</body>
+</html>
+```
