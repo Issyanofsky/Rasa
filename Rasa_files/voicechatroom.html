@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Rasa Chat with Voice Selection</title>
+
 <style>
   body { font-family: Arial; margin: 20px; }
   #chat-box { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 5px; }
@@ -15,10 +16,13 @@
   #controls { margin-bottom: 5px; }
   #voice-select { margin-left: 5px; }
 </style>
+
 </head>
 <body>
 
+<!-- Chat UI -->
 <div id="chat-box"></div>
+
 <div id="controls">
   <input type="text" id="user-input" placeholder="Type a message..." />
   <button id="send-btn">Send</button>
@@ -27,57 +31,83 @@
 </div>
 
 <script>
+/* ============================================
+      🔧 CONFIGURATION (CHANGE HERE ONLY)
+============================================ */
+
+const CONFIG = {
+    RASA_URL: "http://localhost:5005/webhooks/rest/webhook",  // <--- CHANGE THIS
+    DEFAULT_LANGUAGE: "en-US",
+    ENABLE_VOICE_OUTPUT: true,
+    ENABLE_VOICE_INPUT: true,
+    BOT_NAME: "Assistant",
+    WELCOME_MESSAGE: "Hi, I am your assistant. You can type or speak to me."
+};
+
+/* ============================================
+              INITIALIZATION
+============================================ */
+
 const chatBox = document.getElementById("chat-box");
 const input = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 const micBtn = document.getElementById("mic-btn");
 const voiceSelect = document.getElementById("voice-select");
 
-// Unique conversation ID
-const conversationId = "user_" + Math.random().toString(36).substring(2,10);
+// Random conversation ID
+const conversationId = "user_" + Math.random().toString(36).substring(2, 10);
 
-// Display messages
+/* ============================================
+          DISPLAY MESSAGES
+============================================ */
+
 function displayMessage(text, sender) {
-    const p = document.createElement("div");
-    p.className = "message " + sender;
-    p.innerHTML = text;
-    chatBox.appendChild(p);
+    const div = document.createElement("div");
+    div.className = "message " + sender;
+    div.innerHTML = text;
+    chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Display buttons
+// Display quick-reply buttons from Rasa
 function displayButtons(buttons) {
     const container = document.createElement("div");
     container.className = "buttons";
-    buttons.forEach(btnText => {
+
+    buttons.forEach(b => {
         const btn = document.createElement("button");
         btn.className = "btn";
-        btn.textContent = btnText;
+        btn.textContent = b;
         btn.onclick = () => {
-            sendMessage(btnText);
+            sendMessage(b);
             container.remove();
         };
         container.appendChild(btn);
     });
+
     chatBox.appendChild(container);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Send message to Rasa
-async function sendMessage(message=null) {
-    if(message === null){
+/* ============================================
+       SEND MESSAGE TO RASA SERVER
+============================================ */
+
+async function sendMessage(message = null) {
+    if (message === null) {
         message = input.value.trim();
-        if(!message) return;
+        if (!message) return;
     }
 
     displayMessage(message, "user");
+
     input.value = "";
     input.disabled = true;
     sendBtn.disabled = true;
     micBtn.disabled = true;
 
     try {
-        const res = await fetch("http://localhost:5005/webhooks/rest/webhook", {
+        const res = await fetch(CONFIG.RASA_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ sender: conversationId, message })
@@ -86,17 +116,18 @@ async function sendMessage(message=null) {
         const data = await res.json();
 
         data.forEach(msg => {
-            if(msg.text) {
+            if (msg.text) {
                 displayMessage(msg.text, "bot");
-                speak(msg.text);
+                if (CONFIG.ENABLE_VOICE_OUTPUT) speak(msg.text);
             }
-            if(msg.buttons) {
-                const buttonTexts = msg.buttons.map(b => b.title);
-                displayButtons(buttonTexts);
+            if (msg.buttons) {
+                const titles = msg.buttons.map(b => b.title);
+                displayButtons(titles);
             }
         });
-    } catch(err) {
-        displayMessage("Error connecting to Rasa", "bot");
+
+    } catch (err) {
+        displayMessage("⚠️ Error connecting to Rasa server.", "bot");
     }
 
     input.disabled = false;
@@ -105,59 +136,65 @@ async function sendMessage(message=null) {
     input.focus();
 }
 
-// Voice speech
+/* ============================================
+               TEXT-TO-SPEECH
+============================================ */
+
 function populateVoices() {
     const synth = window.speechSynthesis;
     const voices = synth.getVoices();
+
     voiceSelect.innerHTML = "";
-    voices.forEach((voice, i) => {
-        const option = document.createElement("option");
-        option.value = i;
-        option.textContent = `${voice.name} (${voice.lang})`;
-        voiceSelect.appendChild(option);
+    voices.forEach((v, i) => {
+        const opt = document.createElement("option");
+        opt.value = i;
+        opt.textContent = `${v.name} (${v.lang})`;
+        voiceSelect.appendChild(opt);
     });
 }
+
 populateVoices();
-if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = populateVoices;
-}
+speechSynthesis.onvoiceschanged = populateVoices;
 
 function speak(text) {
+    if (!CONFIG.ENABLE_VOICE_OUTPUT) return;
+
     const synth = window.speechSynthesis;
-    const utter = new SpeechSynthesisUtterance(text);
     const voices = synth.getVoices();
-    const selectedVoice = voices[voiceSelect.value] || voices[0];
-    utter.voice = selectedVoice;
+    if (!voices.length) return;
+
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.voice = voices[voiceSelect.value] || voices[0];
     synth.speak(utter);
 }
 
-// Voice input
+/* ============================================
+            SPEECH RECOGNITION
+============================================ */
+
 function startListening() {
-    if(!('webkitSpeechRecognition' in window)) {
-        alert("Speech recognition not supported. Use Chrome or Edge.");
+    if (!CONFIG.ENABLE_VOICE_INPUT) return;
+
+    if (!("webkitSpeechRecognition" in window)) {
+        alert("Your browser does not support speech recognition.");
         return;
     }
+
     const recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    recognition.lang = CONFIG.DEFAULT_LANGUAGE;
 
     recognition.onstart = () => {
-        micBtn.textContent = "🎙️ Listening...";
+        micBtn.textContent = "🎙️";
         micBtn.disabled = true;
     };
 
-    recognition.onresult = (event) => {
-        const speech = event.results[0][0].transcript;
-        sendMessage(speech);
+    recognition.onresult = (e) => {
+        const text = e.results[0][0].transcript;
+        sendMessage(text);
     };
 
-    recognition.onerror = (event) => {
-        console.error("Speech recognition error:", event.error);
-        displayMessage("Could not hear you. Please type instead.", "bot");
-        micBtn.textContent = "🎤";
-        micBtn.disabled = false;
-        input.focus();
+    recognition.onerror = () => {
+        displayMessage("Could not hear you, try typing.", "bot");
     };
 
     recognition.onend = () => {
@@ -168,14 +205,21 @@ function startListening() {
     recognition.start();
 }
 
-// Events
-sendBtn.onclick = () => sendMessage();
-input.addEventListener("keydown", e => { if(e.key==="Enter") sendMessage(); });
-micBtn.onclick = () => startListening();
+/* ============================================
+                EVENT HANDLERS
+============================================ */
 
-// Welcome message
-displayMessage("Hi, I am your assistant. You can type or speak to me. 😊", "bot");
-speak("Hi, I am your assistant. You can type or speak to me.");
+sendBtn.onclick = () => sendMessage();
+micBtn.onclick = () => startListening();
+input.addEventListener("keydown", e => { if (e.key === "Enter") sendMessage(); });
+
+/* ============================================
+                WELCOME MESSAGE
+============================================ */
+
+displayMessage(CONFIG.WELCOME_MESSAGE, "bot");
+if (CONFIG.ENABLE_VOICE_OUTPUT) speak(CONFIG.WELCOME_MESSAGE);
+
 </script>
 </body>
 </html>
