@@ -238,7 +238,7 @@ Those __HTML__ files are chatroom's.
 ``` html
 <script src="rasa-widget.js"></script>
 ```
-Example of a [black HTML page](../Rasa_files/homepage.html):
+Example of a [black HTML page](../Rasa_files/homepage.html) combined with the widget:
 ```html
 <!DOCTYPE html>
 <html>
