@@ -112,3 +112,66 @@ The output of the entity extraction is a snippet of JSON which contains the deta
    __Entity Rols can also be configured to influance the flow of the conversation__ -  to do that you need to include roles in your training data stories. 
 
    ![entity](../images/entity512.gif)
+
+## Types of slot/entity
+
+1. __text__ - Stores simple text values (e.g., names, locations).
+
+Example: "Paris", "John Doe"
+```yaml
+location:
+  type: text
+```
+2. __boolean__ - Stores boolean values (True/False).
+
+Example: True, False
+```yaml
+is_member:
+  type: boolean
+```
+3. __float__ - Stores numerical values with decimal points.
+
+Example: 19.99, 3.14
+```yaml
+price:
+  type: float
+```
+4. __int__ - Stores integer values (whole numbers).
+
+Example: 10, 100
+```yaml
+quantity:
+  type: int
+```
+5. __list__ - Stores multiple values (e.g., a list of items or options).
+
+Example: ["apple", "banana", "cherry"]
+```yaml
+fruits:
+  type: list
+```
+6. __unfeaturized__ - Stores data that is needed for the conversation but does not contribute to model training (e.g., preferences).
+
+Example: "large", "window seat"
+```yaml
+seat_preference:
+  type: unfeaturized
+```
+7. __any__ - A flexible slot type that can store any kind of value, regardless of type (text, int, float, etc.). It’s a catch-all type.
+
+Example: "luxury", 300, True
+```yaml
+custom_data:
+  type: any
+```
+8. __categorical__ - Stores predefined categorical values (i.e., a fixed list of options).
+
+Example: "economy", "business", "first class"
+```yaml
+flight_class:
+  type: categorical
+  values:
+    - economy
+    - business
+    - first class
+```
