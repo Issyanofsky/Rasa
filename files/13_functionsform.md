@@ -95,13 +95,15 @@ Use slot-by-slot validation instead.
 ### 5. extract_slots() — ADVANCED / RARE
 Extract multiple slots at once manually.
 ```python
-async def extract_slots(self, dispatcher, tracker, domain):
-    return {
-        "user_name": "something",
-        "user_email": "other"
-    }
-```
+def extract_slot(self, dispatcher, tracker, domain):
+    # Only extract if slot is empty
+    if tracker.get_slot("user_name") is not None:
+        return {}
 
+    text = tracker.latest_message.get("text")
+    return {"user_name": text.strip() if text else None}
+```
+__*Note:__ __Every time the form validation runs__, Rasa calls all extractors for __all required slots__, not just the current one.
 Not commonly needed.
 
 ### 6. slot_mappings() — USEFUL
