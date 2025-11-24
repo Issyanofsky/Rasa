@@ -150,7 +150,7 @@ async def submit(self, dispatcher, tracker, domain):
     dispatcher.utter_message("Thanks! Your details were saved.")
     return []
 ```
-
+__*Note:__ When using submit() method (python), __you do NOT use rules for submit__.
 ### 9. run() — DO NOT OVERRIDE
 
 Never override run() in a validation class.
