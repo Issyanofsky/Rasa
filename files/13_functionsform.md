@@ -138,7 +138,8 @@ def _should_request_slot(self, slot_name, dispatcher, tracker, domain):
 ✔ Useful for conditional slot skipping
 ✔ Should NOT be used for dynamic slot lists (required_slots is better)
 
-### 8. submit() — OPTIONAL
+### 8. submit() — OPTIONAL - not working on Rasa 3 and above
+__*note:__ From Rasa 3.1 evryting moved to __Rules + FolloupAction + ActiveLoop(None)__.
 What happens after all slots are filled and validated?
 
 For forms before Rasa 3.0 this was required.
