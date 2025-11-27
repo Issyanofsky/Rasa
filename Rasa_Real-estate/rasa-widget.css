@@ -1,0 +1,273 @@
+/* rasa-voice-chat-widget.css */
+
+/* --- Variables and Reset --- */
+:root {
+    --primary-color: #3498db; /* Professional Blue */
+    --primary-dark: #2980b9;
+    --background-color: #f7f9fc; /* Very light gray chat background */
+    --bot-bubble-color: #ffffff;
+    --user-bubble-color: var(--primary-color);
+    --header-color: #ffffff;
+    --text-color: #333;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#rasa-chat-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    user-select: none;
+}
+
+/* Floating Button */
+#chat-toggle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    color: var(--header-color);
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow-light);
+    transition: background-color 0.3s, transform 0.3s;
+    font-weight: 600;
+}
+
+.chat-closed {
+    background-color: var(--primary-color);
+}
+
+.chat-open {
+    background-color: #e74c3c; /* Red for Close */
+    font-size: 14px;
+}
+
+#chat-toggle-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Chat Panel */
+#chat-panel {
+    width: 350px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bot-bubble-color);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    position: absolute;
+    bottom: 75px; 
+    right: 0;
+}
+
+#chat-panel.hidden {
+    display: none;
+}
+
+/* Header */
+#chat-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--primary-color);
+    color: var(--header-color);
+}
+
+#assistant-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+#assistant-name {
+    font-weight: 600;
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+#voice-selector {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ffffff40;
+    background-color: var(--primary-dark);
+    color: var(--header-color);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+/* Chat Box */
+#chat-box {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: var(--background-color);
+}
+
+/* Scrollbar Style */
+#chat-box::-webkit-scrollbar {
+    width: 5px;
+}
+#chat-box::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+}
+
+/* Message Styles */
+.message {
+    display: flex;
+    margin-bottom: 12px;
+    max-width: 90%;
+    align-items: flex-end;
+}
+
+.bot-message {
+    justify-content: flex-start;
+}
+
+.user-message {
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.bot-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.message-bubble {
+    padding: 10px 14px;
+    border-radius: 18px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    font-size: 14px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.bot-message .message-bubble {
+    background-color: var(--bot-bubble-color);
+    color: var(--text-color);
+    border-bottom-left-radius: 4px; 
+}
+
+.user-message .message-bubble {
+    background-color: var(--user-bubble-color);
+    color: var(--header-color);
+    border-bottom-right-radius: 4px;
+}
+
+/* Thinking Indicator */
+.bot-message.thinking .message-bubble {
+    background-color: #f1c40f; 
+    color: #333;
+    font-style: italic;
+    animation: blink 1s infinite steps(1, start);
+}
+@keyframes blink {
+    50% { opacity: 0.5; }
+}
+
+/* Image Support */
+.bot-image {
+    max-width: 100%;
+    max-height: 150px;
+    display: block;
+    margin-top: 8px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+/* Input Controls */
+#chat-controls {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #e0e0e0;
+    background-color: var(--bot-bubble-color);
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+#user-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Button size fix for fitting in the chat panel */
+#send-btn, #mic-btn {
+    padding: 8px 10px; /* Adjusted padding */
+    border: none;
+    border-radius: 20px;
+    background-color: var(--primary-color);
+    color: var(--header-color);
+    cursor: pointer;
+    font-size: 13px; /* Slightly smaller font */
+    margin-left: 4px;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+    font-weight: 600;
+}
+
+/* FIX: Style for the mic icon span - using plain text */
+#mic-btn .mic-icon {
+    font-family: Arial, sans-serif;
+    font-size: 13px; /* Match button font size */
+    line-height: 1;
+    vertical-align: middle;
+}
+
+#send-btn:hover, #mic-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+#mic-btn.recording {
+    background-color: #e74c3c; 
+    animation: pulse-mic 1s infinite alternate;
+}
+@keyframes pulse-mic {
+    from { opacity: 1; }
+    to { opacity: 0.8; }
+}
+
+/* Quick Reply Buttons */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 15px;
+    justify-content: flex-start;
+}
+
+.rasa-button {
+    background-color: #ecf0f1; 
+    color: #34495e; 
+    border: 1px solid #bdc3c7;
+    padding: 8px 12px;
+    border-radius: 18px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.2s, transform 0.1s;
+    line-height: 1;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.rasa-button:hover {
+    background-color: #bdc3c7;
+    color: #333;
+}
+
+
+	

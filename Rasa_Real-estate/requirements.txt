@@ -1,0 +1,7 @@
+transformers
+secure-smtplib
+pandas
+python-dotenv
+setuptools
+wheel
+openpyxl
