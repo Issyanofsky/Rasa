@@ -1,0 +1,141 @@
+version: "3.1"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+#########################################
+# Property Form Stories
+#########################################
+
+- story: Form — valid property type
+  steps:
+  - active_loop: property_info_form
+  - intent: inform_property_type
+  - action: property_info_form
+  - active_loop: property_info_form
+
+- story: Form — invalid property type
+  steps:
+  - active_loop: property_info_form
+  - intent: inform_property_type
+    entities: 
+      - property_type: "spaceship"
+  - action: validate_property_info_form
+  - action: property_info_form
+  - active_loop: property_info_form
+
+- story: Form — valid city
+  steps:
+  - active_loop: property_info_form
+  - intent: inform_city
+  - action: property_info_form
+  - active_loop: property_info_form
+
+- story: Form — invalid city
+  steps:
+  - active_loop: property_info_form
+  - intent: inform_city
+    entities:
+      - city: "chicago"
+  - action: validate_property_info_form
+  - action: property_info_form
+  - active_loop: property_info_form
+
+- story: Form — valid price range
+  steps:
+  - active_loop: property_info_form
+  - intent: inform_price_range
+  - action: property_info_form
+  - active_loop: property_info_form
+
+- story: Form — invalid price range
+  steps:
+  - active_loop: property_info_form
+  - intent: inform_price_range
+    entities:
+      - price_min: "abc"
+  - action: validate_property_info_form
+  - action: property_info_form
+  - active_loop: property_info_form
+
+- story: Form — valid property description
+  steps:
+  - active_loop: property_info_form
+  - intent: inform_propert_description
+  - action: property_info_form
+  - active_loop: property_info_form
+
+- story: Form — invalid description
+  steps:
+  - active_loop: property_info_form
+  - intent: inform_propert_description
+    entities:
+      - property_description: "nice"
+  - action: validate_property_info_form
+  - action: property_info_form
+  - active_loop: property_info_form
+
+#########################################
+# Contact Info Stories
+#########################################
+
+- story: user chooses company info
+  steps:
+  - intent: ask_info_type
+  - action: utter_ask_info_type
+  - intent: company_info
+  - action: utter_company_info
+  - action: utter_ask_email
+  - intent: send_info_email
+  - action: utter_ask_for_email
+  - intent: provide_email
+  - action: action_validate_user_email
+  - action: action_send_contact_email
+  - action: utter_confirm_email_sent
+
+#   - intent: send_info_email
+#   - action: action_send_info_email
+#   - action: utter_email_sent
+
+- story: user chooses contact info
+  steps:
+  - intent: ask_info_type
+  - action: utter_ask_info_type
+  - intent: contact_info
+  - action: utter_contact_info
+  - action: utter_ask_email
+  - intent: send_info_email
+  - action: utter_ask_for_email
+  - intent: provide_email
+  - action: action_validate_user_email
+  - action: action_send_contact_email
+  - action: utter_confirm_email_sent
+#   - intent: send_info_email
+#   - action: action_send_info_email
+#   - action: utter_email_sent

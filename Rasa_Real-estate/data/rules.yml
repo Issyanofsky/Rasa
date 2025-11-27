@@ -1,0 +1,161 @@
+version: "3.1"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+############################
+# Welcome Session
+############################
+- rule: Greet user at session start
+  conversation_start: true
+  steps:
+    # - intent: get_started
+    - action: action_session_start
+    - action: action_welcome_message
+
+- rule: User triggers get_started
+  steps:
+    - intent: get_started
+    - action: action_welcome_message
+
+############################
+# Property Info Form
+############################
+# Rule to start as Rent the form and provide the greeting message
+- rule: user Start Form property details
+  steps:
+    - intent: rent_property
+    - slot_was_set:
+        - data_type: "rent"  
+    - action: utter_rent_property  # Greeting or intro message
+    - action: property_info_form  # Start the form
+    - active_loop: property_info_form  # Form stays active
+
+# Rule to start as Buy the form and provide the greeting message
+- rule: user Start Form property details
+  steps:
+    - intent: buy_property
+    - action: action_set_buy_property_type 
+    - action: utter_buy_property  # Greeting or intro message
+    - action: property_info_form  # Start the form
+    - active_loop: property_info_form  # Form stays active
+
+# Rule to submit the form once all slots are filled
+- rule: Submit property info form
+  condition:
+    - active_loop: property_info_form  # Ensure the form is still active
+  steps:
+    - action: property_info_form  # Submit form action
+    - active_loop: null  # End the active loop (form is completed)
+    - slot_was_set:
+        - requested_slot: null  # Ensure requested slot is cleared
+    - action: utter_submit  # Provide feedback (submission success message)
+    - action: action_search_properties
+    - action: utter_offer_meeting_options
+
+# Rule to enforce validation during the form process
+- rule: Enforce validation for property form
+  condition:
+    - active_loop: property_info_form  # Ensure the form is still active
+  steps:
+    - or:
+        - intent: nlu_fallback
+        - intent: greet
+        - intent: affirm
+        - intent: deny
+        - intent: mood_great
+        - intent: mood_unhappy
+    - action: validate_property_info_form  # Form validation action
+    - active_loop: property_info_form  # Continue the form loop
+    - action: action_listen  # Bot listens for user input
+
+# Rule to cancel the form and reset slots
+- rule: Cancel the form
+  condition:
+    - active_loop: property_info_form  # Ensure the form is still active
+  steps:
+    - intent: cancel
+    - action: action_cancel_form  # Action to cancel the form and reset
+
+############################
+# Meeting Info Form
+############################
+# first meeting options
+- rule: Show more options
+  steps:
+    - intent: show_appointment_options
+    - action: utter_offer_meeting_options
+
+# Callback request
+- rule: user requests callback → start form
+  steps:
+    - intent: request_callback
+    - action: action_set_callback_purpose
+    - action: user_info_form
+    - active_loop: user_info_form
+
+# Meeting request
+- rule: user requests meeting → start form
+  steps:
+    - intent: request_meeting
+    - action: action_set_meeting_purpose
+    - action: user_info_form
+    - active_loop: user_info_form
+
+# Submit user form
+- rule: Handle user_info_form completion or cancel
+  condition:
+    - active_loop: user_info_form
+  steps:
+    - action: user_info_form
+    - active_loop: null
+    - slot_was_set:
+        - requested_slot: null
+    - action: action_handle_submit_user_form
+    
+# Rule to start as Sell the form and provide the greeting message
+- rule: user Start Sell Form property details
+  steps:
+    - intent: sell_property
+    - action: action_set_sell_purpose 
+    - action: utter_sell_property  
+    - action: user_info_form  # Start the form
+    - active_loop: user_info_form  # Form stays active
+
+# Rule to start as complaint the form and provide the greeting message
+- rule: user Start complaint Form property details
+  steps:
+    - intent: file_complaint
+    - action: action_set_file_complaint_purpose 
+    - action: utter_complaint_property  # Greeting or intro message
+    - action: user_info_form  # Start the form
+    - active_loop: user_info_form  # Form stays active
+
+# Rule to start as maintenance the form and provide the greeting message
+- rule: user Start maintenance Form property details
+  steps:
+    - intent: maintenance_issue
+    - action: action_set_maintenance_purpose 
+    - action: utter_maintenance_property  # Greeting or intro message
+    - action: user_info_form  # Start the form
+    - active_loop: user_info_form  # Form stays active
+
+###### company info
+
+- rule: handle ask info type anytime
+  steps:
+    - intent: ask_info_type
+    - action: utter_ask_info_type
+
+- rule: handle ask for giving email
+  steps:
+    - intent: send_info_email
+    - action: utter_ask_for_email

@@ -1,0 +1,611 @@
+version: "3.1"
+
+nlu:
+- synonym: rent
+  examples: |
+    - rent
+    - rental
+    - for rent
+    - to rent
+
+- synonym: buy
+  examples: |
+    - buy
+    - purchase
+    - for sale
+    - to buy
+
+- synonym: bedroom
+  examples: |
+    - bedrooms
+    - rooms
+    - master bedroom
+
+- synonym: apartment
+  examples: |
+    - flat
+    - condo
+    - condos
+    - studio
+    - loft
+    - unit
+    - apartments
+
+- synonym: house
+  examples: |
+    - home
+    - villa
+    - bungalow
+    - cottage
+    - residence
+    - houses
+
+- synonym: office
+  examples: |
+    - office spaces
+    - office space
+    - offices
+    - workspace
+    - workspaces
+    - working space
+    - working spaces
+
+- synonym: land
+  examples: |
+    - plot
+    - plots
+    - lot
+    - acreage
+    - property
+    - terrain
+
+- synonym: store
+  examples: |
+    - shop
+    - retail space
+    - retail spaces
+    - boutique
+    - outlet
+    - kiosk
+    - stores
+    - shops
+
+- synonym: warehouse
+  examples: |
+    - storage facility
+    - depot
+    - distribution center
+    - storeroom
+    - stockhouse
+
+- synonym: hotel
+  examples: |
+    - inn
+    - lodge
+    - resort
+    - motel
+    - guesthouse
+
+- lookup: city
+  examples: |
+    - tel-aviv
+    - tel aviv
+    - tulum
+    - playa del carmen
+    - cancun
+    - cancún
+    - london
+    - new-york
+    - paris
+    - madrid
+
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: cancel
+  examples: |
+    - cancel
+    - never mind
+    - forget it
+    - stop
+    - I changed my mind
+    - don't continue
+    - let's start from start
+    - i dont want this
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+- intent: nlu_fallback
+  examples: |
+    - asldkfj
+    - qwerty
+    - 12345
+    - !!!???
+    - hhhhhh
+    - random text
+    - I don't know
+    - What is this?
+    - Blah blah blah
+    - 🤷‍♂️
+    - !@#$%^
+    - gibberish
+    - something else
+    - I want pizza
+    - why is the sky blue?
+    - just testing
+    - lalala
+    - abcdefg
+    - random words
+    - tell me a joke
+    - foo bar
+    - nothing
+    - I am bored
+    - I don't understand
+    - blah blah
+###################################################
+# Restart first menu
+###################################################
+- intent: get_started
+  examples: |
+    - let's start
+    - get started
+    - start from scratch
+    - start again
+    - start from the begining
+
+####################################################
+# RENT INTENTS
+####################################################
+
+- intent: rent_property
+  examples: |
+    - I want to [rent](data_type) a [house](property_type) in [cancun](city)
+    - Do you have [house](property_type) for [rent](data_type)?
+    - I'm looking for a [rental](data_type) [home](property_type)
+    - Show me [rental](data_type) [houses](property_type) in [tulum](city)
+    - Any [houses](property_type) available for [rent](data_type)?
+    - I want to [rent](data_type) an [apartment](property_type)
+    - Do you have [apartments](property_type) for [rent](data_type)?
+    - I'm looking for a [flat](property_type) to [rent](data_type)
+    - Show me available [apartments](property_type) in [playa del carmen](city)
+    - Any studio [apartments](property_type) for [rent](data_type)?    
+    - I want to [rent](data_type) a [store](property_type)
+    - Do you have [shops](property_type) for [rent](data_type) in [playa del carmen](city)?
+    - I'm looking for a [shop](property_type) space to [rent](data_type)
+    - Any commercial [stores](property_type) available for [rent](data_type)?
+    - Show me [rental](data_type) [stores](property_type) in [cuncun](city)
+    - I want to [rent](data_type) an [office](property_type)
+    - Do you have [office spaces](property_type) for [rent](data_type)?
+    - I'm looking for an [office](property_type) to [rent](data_type) in [playa del carmen](city)
+    - Any [office](property_type) rentals available for [rent](data_type)?
+    - Show me available [offices](property_type)
+####################################################
+# Buy INTENTS
+####################################################
+- intent: buy_property
+  examples: |
+    - I want to [buy](data_type) a [house](property_type) in [playa del carmen](city)
+    - Do you have [houses](property_type) for [buy](data_type)?
+    - Show me [homes](property_type) available to [buy](data_type)
+    - I'm looking for a [villa](property_type) to [buy](data_type)
+    - Any [houses](property_type) for [buy](data_type) at [cancun](city)?  
+    - I want to [buy](data_type) an [apartment](property_type)
+    - Do you have [apartments](property_type) for [buy](data_type)?
+    - I'm looking for a [flat](property_type) to [buy](data_type) in [tulum](city)
+    - Show me available [apartments](property_type)
+    - Any [condos](property_type) for [buy](data_type)?
+    - I want to [buy](data_type) a [store](property_type) in [cancun](city)
+    - Do you have [shops](property_type) for [buy](data_type)?
+    - I'm looking for commercial [stores](property_type) to [buy](data_type)
+    - Any [retail spaces](property_type) for [buy](data_type)?
+    - Show me [stores](property_type) available to [buy](data_type)
+    - I want to [buy](data_type) an [office](property_type) in [playa del carmen](city)
+    - Do you have [office spaces](property_type) for [buy](data_type)?
+    - I'm looking for an [office](property_type) to [buy](data_type)
+    - Any [office](property_type) buildings available for [buy](data_type)?
+    - Show me [offices](property_type) for [buy](data_type) in [cancun](city)
+    - I want to [buy](data_type) [land](property_type)
+    - Do you sell [plots](property_type)?
+    - I'm looking for [land](property_type) to [buy](data_type) in the [cancun](city) area
+    - Any agricultural [land](property_type) for [buy](data_type)?
+    - Show me available [plots](property_type)
+
+####################################################
+# sell INTENTS
+####################################################
+- intent: sell_property
+  examples: |
+    - I want to sell my property in [tulum](city)
+    - I need help selling my [house](property_type) in [cancun](city)
+    - I'd like to put my [apartment](property_type) on the market
+    - Can you assist me with selling my [flat](property_type) in [playa del carmen](city)?
+    - I'm planning to sell my real estate
+    - I want to list my [home](property_type) for sale
+    - I’m thinking about selling my [condo](property_type)
+    - I'd like to sell a piece of [land](property_type) in [tulum](city)
+    - Help me sell my [villa](property_type)
+    - I want to get my property evaluated for sale
+
+####################################################
+# inform's INTENTS
+####################################################
+- intent: inform_city
+  examples: |
+    - [cancun](city)
+    - in [cancun](city)
+    - [tulum](city)
+    - at [tulum](city)
+    - somewhere in [playa del carmen](city)
+    - near [cancun](city)
+    - I want it in [tulum](city)
+    - The city is [cancun](city)
+    - I prefer [playa del carmen](city)
+    - It's in [tulum](city)
+    - [london](city)
+    - I’m heading to [london](city)
+    - visiting [jerusalem](city)
+    - [new york](city)
+    - [los angeles](city)
+    - [paris](city)
+    - near [jerusalem](city)
+
+- intent: inform_property_type
+  examples: |
+    - [house](property_type)
+    - a [house](property_type)
+    - an [house](property_type)
+    - [houses](property_type)
+    - a [houses](property_type)
+    - [apartment](property_type)
+    - an [apartment](property_type)
+    - a [flat](property_type)
+    - [flat](property_type)
+    - [condo](property_type)
+    - a [condo](property_type)
+    - [villa](property_type)
+    - a [villa](property_type)
+    - [land](property_type)
+    - [office](property_type)
+    - an [office](property_type)
+    - [store](property_type)
+    - a [store](property_type)
+    - [commercial](property_type)
+    - [warehouse](property_type)
+    - [hotel](property_type)
+    - a [hotel](property_type)
+    - [apts](property_type)
+    - [villas](property_type)
+
+- regex: price
+  examples: |
+    - [0-9]{3,9}
+
+- intent: inform_price_range
+  examples: |
+    - [800](price_min) - [1200](price_max)
+    - [800](price_min) - [1200](price_max)
+    - [20000](price_min) to [825000](price_max)
+    - between [1000](price_min) and [1600](price_max)
+    - from [7000](price_min) to [11000](price_max)
+    - [1000](price_min) - [1500](price_max)
+    - around [800](price_min) to [1200](price_max)
+    - budget is [11500](price_min) to [16000](price_max)
+    - minimum [12300](price_min) max [15000](price_max)
+    - at least [500](price_min) up to [1000](price_max)
+    - my budget is [1000](price_min) - [1600](price_max)
+    - looking for something between [750](price_min) and [1200](price_max)
+    - from [13000](price_min) to [15000](price_max)
+    - between [13000](price_min) and [15000](price_max)
+    - [10000](price_min) and [15000](price_max)
+
+
+- intent: inform_propert_description
+  examples: |
+    - [2 bedrooms](property_description)
+    - [3 rooms](property_description)
+    - with [1 bedrooms](property_description)
+    - [200 squere](property_description)
+    - [500 squere](property_description)
+    - [commercial](property_description) use
+    - [Residential](property_description)
+    - [vacant](property_description) land
+    - with [garden](property_description)
+    - [new building](property_description)
+    - [new](property_description)
+    - [new house](property_description)
+
+####################################################
+# APPOINTMENTS
+####################################################
+- intent: show_appointment_options
+  examples: |
+    - what contact option do i have
+
+- intent: request_meeting
+  examples: |
+    - I want to set up a meeting with the agent.
+    - Can I schedule a meeting with the agent?
+    - I would like to meet with the agent.
+    - I need an appointment with the agent.
+    - Please arrange a meeting for me.
+    - Book a meeting with the agent.
+    - Can we schedule a time to meet?
+    - Set up a meeting with the agent.
+    - I'd like to book a meeting.
+    - Can we meet with the agent sometime?
+    - When can I meet the agent?
+
+- intent: request_callback
+  examples: |
+    - I need a callback from the agent.
+    - call me back
+    - Please ask the agent to call me back.
+    - Can the agent call me?
+    - Can I get a call from the agent?
+    - I’d like the agent to give me a call.
+    - Have the agent call me.
+    - I’d prefer a callback.
+    - Please arrange for a call from the agent.
+    - Can someone call me back?
+    - Could the agent give me a call?
+
+# - regex: user_name_pattern
+#   examples: |
+#     - \b[a-zA-Z]+ [a-zA-Z]+\b 
+
+- intent: provide_name
+  examples: |
+    - johan dow
+    - lisa smith
+    - jane doe
+    - sara lee
+    - jack hill
+    - alex wood
+    - paul fox
+    - ryan day
+    - eric king
+    - matt grey
+    - tony park
+    - john lee
+    - will brown
+    - sam white
+    - mike black
+    - tom green
+    - fred blue
+    - ken grey
+    - rob smith
+    - pat jones
+    - mark wall
+    - adam bold
+    - chloe davis
+    - elena white
+    - gary fisher
+    - ivan scott
+    - kevin adams
+    - omar farouk
+    - lily may
+    - finn cole
+    - jade long
+    - david evans
+    - sophia clark
+    - ethan hall
+    - olivia baker
+    - noah fisher
+    - ava moore
+    - liam taylor
+    - isabella ward
+    - benjamin ross
+    - mia bell
+    - jacob cook
+    - charlotte cox
+    - mason price
+    - amelia brooks
+    - harper long
+    - evelyn king
+    - sebastian cole
+    - scarlett carter
+    - aiden hayes
+    - grace adams 
+
+- intent: provide_phone
+  examples: |
+    - My phone number is [555-123-4567](user_phone).
+    - You can reach me at [123-456-7890](user_phone).
+    - Call me at [9876543210](user_phone).
+    - My contact number is [555-999-8888](user_phone).
+    - You can contact me at [(123) 456-7890](user_phone).
+    - Reach me at [00123456789](user_phone).
+    - My mobile number is [5551234567](user_phone).
+    - I’m at [800-555-0123](user_phone).
+    - My phone number is [321-456-7890](user_phone).
+    - Here is my number: [555-5555](user_phone).
+    - [982-054-4254258](user_phone)
+    - [0534254257](user_phone)
+    - [043-4561284](user_phone)
+    - [056-784-1698](user_phone)
+
+- intent: provide_email
+  examples: |
+    - My email is [john.doe@example.com](user_email).
+    - You can email me at [sarah_lee@gmail.com](user_email).
+    - My address is [alex_smith@mail.com](user_email).
+    - I can be reached at [emily@outlook.com](user_email).
+    - Send an email to me at [mike@domain.com](user_email).
+    - My email address is [jessica_lee@yahoo.com](user_email).
+    - You can contact me via email at [david@mail.com](user_email).
+    - My email is [mary.jones@company.com](user_email).
+    - You can reach me at [hello@alex.com](user_email).
+    - Email me at [daniel@example.org](user_email).
+    - [emily@outlook.com](user_email)
+    - [danier.d@gmail.com](user_email)
+    - [walt@walt.co.mx]
+
+- intent: provide_meeting_info
+  examples: |
+    - [Tomorrow at 10am](meeting_time)
+    - [Friday 3pm](meeting_time)
+    - [Next Monday at 9](meeting_time)
+    - [5pm today](meeting_time)
+    - [Tuesday morning](meeting_time)
+    - [Thursday 14:00](meeting_time)
+    - [Next Wednesday](meeting_time)
+    - [11am tomorrow](meeting_time)
+    - [6pm tonight](meeting_time)
+    - [Monday at 13:00](meeting_time)
+    - [Friday evening](meeting_time)
+    - [Tomorrow afternoon](meeting_time)
+    - [Any afternoon](meeting_time)
+    - [Next week](meeting_time)
+    - [This week](meeting_time)
+    - [On Monday](meeting_time)
+    - [On Tuesday morning](meeting_time)
+    - [On Wednesday afternoon](meeting_time)
+    - [Next Friday evening](meeting_time)
+    - [Any day next week](meeting_time)
+    - [In the morning](meeting_time)
+    - [Late afternoon](meeting_time)
+    - [Early evening](meeting_time)
+    - [After lunch](meeting_time)
+    - [Before 5pm](meeting_time)
+    - [After 2pm](meeting_time)
+    - [Any time tomorrow](meeting_time)
+    - [Next weekend](meeting_time)
+    - [Next Monday morning](meeting_time)
+
+####################################################
+# COMPLAINTS & SUPPORT
+####################################################
+- intent: file_complaint
+  examples: |
+    - I want to file a complaint
+    - I have a problem with your company
+    - I'm unhappy with the service
+    - I want to report an issue
+    - I want to speak to a manager
+
+- intent: maintenance_issue
+  examples: |
+    - I need maintenance help
+    - The AC is broken
+    - Something is leaking
+    - My apartment needs repair
+    - Can you send maintenance?
+
+####################################################
+# COMPANY INFO
+####################################################
+- intent: ask_info_type
+  examples: |
+    - I want company info
+    - company info
+    - tell me about the company
+    - I want contact info
+    - contact information
+    - how can I contact you?
+
+- intent: company_info
+  examples: |
+    - Tell me about your company
+    - What services do you offer?
+    - What do you do?
+    - Are you a real estate agency?
+    - What type of properties do you manage?
+
+- intent: contact_info
+  examples: |
+    - How can I contact you?
+    - What is your phone number?
+    - Do you have an office?
+    - What is your email?
+    - Where are you located?
+
+- intent: send_info_email
+  examples: |
+    - yes send it to my email
+    - send it by email
+    - email it to me
+    - yes please email the info
