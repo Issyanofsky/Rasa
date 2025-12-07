@@ -15,29 +15,29 @@ __Installing Rasa__ - install via the rasa site ([Rasa Instalation](https://rasa
 
 Activating python virtual enviroment (windows Os):
 ```bash
-    python -m venv venv
-    .\venv\Scripts\activate
+python -m venv venv
+.\venv\Scripts\activate
 ```
 __*note:__ if it's been a while, Update Rasa before you begin.
 
 ```bash
-    pip install --upgrade rasa
+pip install --upgrade rasa
 ```
 
 check if rasa installed (on terminal):
 
 ```bash
-    rasa -h
+rasa -h
 ```
 __OR__
 
 ```bash
-    rasa --version
+rasa --version
 ```
 Create a new project
 
 ```bash
-    rasa init
+rasa init
 ```
 
 # 2. Quick code walkthrough of a basic Rasa assistant
@@ -58,27 +58,27 @@ Must files in Rasa. the minimum files needed to run Rasa, are:
 help - display help. list of all commands
 
 ```bash
-    rasa -h 
+rasa -h 
 ```
 train - traines a new model and stores it model directory (named the time it was trained)
 
 ```bash
-    rasa train
+rasa train
 ```
 
 shell - allow to talk to the assistant in a shell (terminal)
 
 ```bash
-    rasa shell
+rasa shell
 ```
 
   to get a debug
 
 ```bash
-    rasa shell --debug
+rasa shell --debug
 ```
 
 __rasa interactive__ starts Interactive Learning mode, which lets you (need to execute in the folder where the init):
 ```bash
-    rasa interactive
+rasa interactive
 ```
