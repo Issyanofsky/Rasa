@@ -42,15 +42,14 @@ core fallback (if no action fits)
    ↓
 custom fallback logic (if needed)
 ```
-
 __Best practice stack__
-|-------------------|-------------------------------------------------------------|
-|        Layer	    |                        Purpose                              |
-|-------------------|-------------------------------------------------------------|
-| NLU fallback	    | Catch unclear messages                                      |
-| Rule fallback	    | Catch broken conversation flow                              |
-| Custom fallback	  | Handle business logic & recovery                            |
-|-------------------|-------------------------------------------------------------|
+
+| Layer           | Purpose                                |
+|-----------------|----------------------------------------|
+| NLU fallback    | Catch unclear messages                 |
+| Rule fallback   | Catch broken conversation flow         |
+| Custom fallback | Handle business logic & recovery       |
+
 
 ⚠️ __Common Mistakes__
 ❌ Relying only on NLU fallback
