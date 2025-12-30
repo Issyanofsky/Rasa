@@ -51,7 +51,8 @@ __Best practice stack__
 | Custom fallback | Handle business logic & recovery                             |
 
 
-⚠️ __Common Mistakes__
+⚠️ __Common Mistakes__:
+
 ❌ Relying only on NLU fallback
 ❌ No core fallback → bot crashes conversationally
 ❌ One generic fallback message everywhere
