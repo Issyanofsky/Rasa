@@ -54,8 +54,11 @@ __Best practice stack__
 ⚠️ __Common Mistakes__:
 
 ❌ Relying only on NLU fallback
+
 ❌ No core fallback → bot crashes conversationally
+
 ❌ One generic fallback message everywhere
+
 ❌ No tracking of fallback frequency
 
 ### 1. NLU Fallback (low intent confidence)
